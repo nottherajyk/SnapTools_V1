@@ -1846,3 +1846,42 @@ input[type="range"]::-webkit-slider-thumb:hover {
     width: 100%;
   }
 }
+
+
+/* ----- Author & GitHub Link Visuals in Footer ----- */
+.footer-author-link {
+  color: var(--bg-primary) !important;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-decoration: none;
+}
+
+.footer-author-link:hover {
+  color: var(--accent) !important;
+  transform: scale(1.05);
+}
+
+.footer-github-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  color: #000000;
+  border: 2px solid #000000;
+  padding: 4px;
+  border-radius: 6px;
+  box-shadow: 1.5px 1.5px 0px #000000;
+  transition: all 0.15s ease;
+}
+
+.footer-author-link:hover .footer-github-icon {
+  background: var(--accent);
+  color: #FFFFFF;
+  border-color: #000000;
+  box-shadow: 2px 2px 0px #000000;
+  transform: rotate(8deg);
+}
