@@ -1,36 +1,116 @@
-export function formatBytes(bytes) {
+﻿export function formatBytes(bytes) {
   if (bytes === 0) return '0 B';
   const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
+function showDownloadConfirmationModal(filename, sizeText, onConfirm) {
+  let overlay = document.querySelector('.download-modal-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'download-modal-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  overlay.innerHTML = `
+    <div class="download-modal-container">
+      <div class="download-modal-header">
+        <span class="download-modal-title">DOWNLOAD CONFIRMATION</span>
+        <button class="download-modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="download-modal-body">
+        <div class="download-modal-icon-container">
+          <div class="download-modal-icon">&#128190;</div>
+        </div>
+        <div class="download-modal-details-table">
+          <div class="download-modal-row">
+            <span class="download-modal-label">File Name:</span>
+            <span class="download-modal-value download-modal-filename" title="${filename}">${filename}</span>
+          </div>
+          <div class="download-modal-row">
+            <span class="download-modal-label">File Size:</span>
+            <span class="download-modal-value download-modal-filesize">${sizeText}</span>
+          </div>
+        </div>
+        <p class="download-modal-disclaimer">Would you like to authorize this download to your system?</p>
+      </div>
+      <div class="download-modal-footer">
+        <button class="download-modal-btn download-modal-btn-cancel">Cancel</button>
+        <button class="download-modal-btn download-modal-btn-confirm">Download File &#128640;</button>
+      </div>
+    </div>
+  `;
+
+  const closeModal = () => {
+    overlay.classList.remove('active');
+    document.removeEventListener('keydown', handleEscape);
+    setTimeout(() => { overlay.remove(); }, 250);
+  };
+
+  const confirmDownload = () => {
+    closeModal();
+    onConfirm();
+  };
+
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') closeModal();
+  };
+
+  overlay.querySelector('.download-modal-close-btn').addEventListener('click', closeModal);
+  overlay.querySelector('.download-modal-btn-cancel').addEventListener('click', closeModal);
+  overlay.querySelector('.download-modal-btn-confirm').addEventListener('click', confirmDownload);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', handleEscape);
+
+  requestAnimationFrame(() => { overlay.classList.add('active'); });
+}
+
 export function downloadBlob(blob, filename) {
-  // Use file-saver if available, otherwise manual approach with delayed revoke
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  // Delay cleanup so the browser has time to start the download with the correct filename
-  setTimeout(() => {
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }, 1000);
+  const sizeText = formatBytes(blob.size);
+  showDownloadConfirmationModal(filename, sizeText, () => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 1000);
+  });
 }
 
 export function downloadDataURL(dataURL, filename) {
-  const a = document.createElement('a');
-  a.href = dataURL;
-  a.download = filename;
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => {
-    document.body.removeChild(a);
-  }, 1000);
+  let sizeText = 'Unknown';
+  if (dataURL.startsWith('data:')) {
+    const base64Str = dataURL.split(',')[1] || '';
+    const sizeBytes = Math.floor((base64Str.length * 3) / 4);
+    sizeText = formatBytes(sizeBytes);
+  }
+  showDownloadConfirmationModal(filename, sizeText, () => {
+    const a = document.createElement('a');
+    a.href = dataURL;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { document.body.removeChild(a); }, 1000);
+  });
+}
+
+export function downloadURL(url, filename) {
+  showDownloadConfirmationModal(filename, 'Remote / External Resource', () => {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { document.body.removeChild(a); }, 1000);
+  });
 }
 
 export function readFileAsDataURL(file) {
@@ -67,7 +147,7 @@ export function copyToClipboard(text) {
 export function renderDropZone(id, accept, label = 'Drop your file here or click to browse') {
   return `
     <div class="drop-zone" id="${id}">
-      <div class="drop-zone-icon">📁</div>
+      <div class="drop-zone-icon">&#128194;</div>
       <h3>${label}</h3>
       <p>Supports ${accept.toUpperCase()} files</p>
       <input type="file" accept="${accept}" id="${id}Input" />
@@ -77,9 +157,9 @@ export function renderDropZone(id, accept, label = 'Drop your file here or click
 export function renderMultiDropZone(id, accept, label = 'Drop your files here or click to browse') {
   return `
     <div class="drop-zone" id="${id}">
-      <div class="drop-zone-icon">📁</div>
+      <div class="drop-zone-icon">&#128194;</div>
       <h3>${label}</h3>
-      <p>Supports ${accept.toUpperCase()} files — Multiple files allowed</p>
+      <p>Supports ${accept.toUpperCase()} files &#8212; Multiple files allowed</p>
       <input type="file" accept="${accept}" id="${id}Input" multiple />
     </div>`;
 }

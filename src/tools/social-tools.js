@@ -1,5 +1,5 @@
 import { showToast } from '../components/toast.js';
-import { downloadBlob, renderDropZone, formatBytes } from '../utils.js';
+import { downloadBlob, renderDropZone, formatBytes, downloadURL } from '../utils.js';
 
 export function socialToolHandler(tool) {
   setTimeout(() => setupSocialTool(tool.id), 50);
@@ -540,14 +540,8 @@ function setupSocialTool(toolId) {
           `;
 
           document.getElementById('igDownloadFinal')?.addEventListener('click', () => {
-            // Let the browser handle the download directly using the API's attachment header
             const downloadUrl = apiUrl + '&download=1';
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = `instagram-${shortcode}.jpg`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            downloadURL(downloadUrl, `instagram-${shortcode}.jpg`);
           });
           document.getElementById('igOpenFinal')?.addEventListener('click', () => {
             window.open(apiUrl, '_blank');
@@ -701,13 +695,9 @@ function setupSocialTool(toolId) {
                 }
 
                 if (finalUrl) {
-                  // Trigger browser download
-                  const a = document.createElement('a');
-                  a.href = finalUrl;
-                  a.setAttribute('download', '');
-                  document.body.appendChild(a);
-                  a.click();
-                  document.body.removeChild(a);
+                  const extension = isAudio ? 'mp3' : 'mp4';
+                  const dlFilename = title ? `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.${extension}` : `youtube-video.${extension}`;
+                  downloadURL(finalUrl, dlFilename);
                   
                   // Reset button after small delay
                   setTimeout(() => {
