@@ -15,6 +15,11 @@ export const tools = [
   { id:'black-and-white', name:'Black & White', desc:'Easily convert an image to black and white online.', category:'image', icon:'⬛' },
 
   // ===== PDF TOOLS =====
+  { id:'pdf-to-word', name:'PDF to Word', desc:'Convert PDF documents to editable Microsoft Word DOCX files.', category:'pdf', icon:'📝', badge:'PREMIUM' },
+  { id:'word-to-pdf', name:'Word to PDF', desc:'Convert Microsoft Word DOCX files to PDF documents online.', category:'pdf', icon:'📄', badge:'PREMIUM' },
+  { id:'compress-pdf', name:'Compress PDF', desc:'Reduce the file size of your PDF while keeping maximum quality.', category:'pdf', icon:'🗜️', badge:'PREMIUM' },
+  { id:'acrobat-downloader', name:'Acrobat Link Downloader', desc:'Download or convert files from any Adobe Acrobat public shared link.', category:'pdf', icon:'🔗', badge:'NEW' },
+  { id:'pdf-to-images', name:'PDF to Images', desc:'Convert PDF pages into high-quality JPG or PNG images client-side.', category:'pdf', icon:'🖼️', badge:'PREMIUM' },
   { id:'protect-pdf', name:'Protect PDF', desc:'Easily protect a PDF file with a password.', category:'pdf', icon:'🔒' },
   { id:'unlock-pdf', name:'Unlock PDF', desc:'Easily unlock a PDF protected with a password.', category:'pdf', icon:'🔓' },
   { id:'pdf-metadata', name:'PDF Metadata', desc:"Easily preview a PDF's metadata online.", category:'pdf', icon:'📋' },
