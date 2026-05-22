@@ -21,7 +21,7 @@ export function renderToolPage(toolId) {
       <div class="tool-page-header">
         <div class="breadcrumb">
           <a href="#/">Home</a> <span>›</span>
-          <a href="#/" data-nav="/">${catNames[tool.category] || 'Tools'}</a> <span>›</span>
+          <a href="#/${tool.category}" data-nav="/${tool.category}">${catNames[tool.category] || 'Tools'}</a> <span>›</span>
           <span>${tool.name}</span>
         </div>
         <h1>${tool.icon} ${tool.name}</h1>

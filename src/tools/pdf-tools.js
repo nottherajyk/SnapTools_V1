@@ -1318,6 +1318,40 @@ function setupPdfTool(toolId) {
       }
     }
   }
+
+  // Auto-consume global pending dropped file if it is a document
+  if (window.pendingDroppedFile) {
+    const file = window.pendingDroppedFile;
+    const isDocFile = file.type === 'application/pdf' || /\.(pdf|docx)$/i.test(file.name);
+    if (isDocFile) {
+      const toolToZone = {
+        'protect-pdf': 'pdfProtect',
+        'unlock-pdf': 'pdfUnlock',
+        'pdf-metadata': 'pdfMeta',
+        'jpg-to-pdf': 'jpgPdf',
+        'merge-pdf': 'pdfMerge',
+        'split-pdf': 'pdfSplit',
+        'pdf-to-word': 'pdfToWord',
+        'word-to-pdf': 'wordToPdf',
+        'compress-pdf': 'pdfCompress',
+        'pdf-to-images': 'pdfToImages'
+      };
+      
+      const zoneId = toolToZone[toolId];
+      if (zoneId) {
+        window.pendingDroppedFile = null; // Consume
+        setTimeout(() => {
+          const input = document.getElementById(zoneId + 'Input');
+          if (input) {
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+            input.dispatchEvent(new Event('change'));
+          }
+        }, 100);
+      }
+    }
+  }
 }
 
 function parsePageRange(str, max) {

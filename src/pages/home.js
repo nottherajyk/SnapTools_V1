@@ -1,6 +1,13 @@
 import { tools, categories } from '../tools-data.js';
 
 export function renderHome() {
+  const route = window.location.hash.slice(1) || '/';
+  let activeCat = 'image';
+  if (route === '/pdf') activeCat = 'pdf';
+  else if (route === '/social') activeCat = 'social';
+  else if (route === '/text') activeCat = 'text';
+  else if (route === '/image') activeCat = 'image';
+
   const imageTools = tools.filter(t => t.category === 'image');
   const pdfTools = tools.filter(t => t.category === 'pdf');
   const socialTools = tools.filter(t => t.category === 'social');
@@ -43,26 +50,26 @@ export function renderHome() {
   </section>
 
   <div class="category-tabs sr-fade-up" id="categoryTabs">
-    ${categories.map((c, i) => `
-      <button class="cat-tab ${c.id === 'all' ? 'active' : ''} sr-scale-in sr-delay-${i + 1}" data-cat="${c.id}">
+    ${categories.filter(c => c.id !== 'all').map((c, i) => `
+      <button class="cat-tab ${c.id === activeCat ? 'active' : ''} sr-scale-in sr-delay-${i + 1}" data-cat="${c.id}">
         ${c.icon} ${c.name}
-        <span class="count">${c.id === 'all' ? tools.length : tools.filter(t => t.category === c.id).length}</span>
+        <span class="count">${tools.filter(t => t.category === c.id).length}</span>
       </button>
     `).join('')}
   </div>
 
   <section class="tools-section" id="toolsSection">
-    ${renderCategorySection('image', ' Image Tools', imageTools)}
-    ${renderCategorySection('pdf', ' PDF Tools', pdfTools)}
-    ${renderCategorySection('social', ' Social Media Tools', socialTools)}
-    ${renderCategorySection('text', ' Text & Lists Tools', textTools)}
+    ${renderCategorySection('image', ' Image Tools', imageTools, activeCat === 'image')}
+    ${renderCategorySection('pdf', ' PDF Tools', pdfTools, activeCat === 'pdf')}
+    ${renderCategorySection('social', ' Social Media Tools', socialTools, activeCat === 'social')}
+    ${renderCategorySection('text', ' Text & Lists Tools', textTools, activeCat === 'text')}
   </section>
   `;
 }
 
-function renderCategorySection(catId, title, toolsList) {
+function renderCategorySection(catId, title, toolsList, isActive) {
   return `
-    <div class="tools-category" data-category="${catId}" id="cat-${catId}">
+    <div class="tools-category" data-category="${catId}" id="cat-${catId}" style="display: ${isActive ? 'block' : 'none'}">
       <div class="tools-category-header sr-slide-left">
         <div class="cat-icon ${catId}">${catId === 'image' ? '🖼️' : catId === 'pdf' ? '📄' : catId === 'social' ? '📱' : '📝'}</div>
         <h2>${title}</h2>
@@ -167,15 +174,14 @@ function initScrollAnimations() {
 // Category filter logic + animation init
 window.addEventListener('page-rendered', () => {
   const tabs = document.querySelectorAll('.cat-tab');
-  const sections = document.querySelectorAll('.tools-category');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
       const cat = tab.dataset.cat;
-      sections.forEach(s => {
-        s.style.display = (cat === 'all' || s.dataset.category === cat) ? '' : 'none';
-      });
+      if (cat === 'image') {
+        window.location.hash = '#/';
+      } else {
+        window.location.hash = `#/${cat}`;
+      }
     });
   });
 

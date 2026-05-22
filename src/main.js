@@ -2,7 +2,7 @@
 import { router, navigateTo } from './router.js';
 import { renderNavbar } from './components/navbar.js';
 import { renderFooter } from './components/footer.js';
-import { renderToastContainer } from './components/toast.js';
+import { renderToastContainer, showToast } from './components/toast.js';
 import { tools } from './tools-data.js';
 
 const app = document.getElementById('app');
@@ -186,4 +186,92 @@ function bindNavbar() {
 }
 
 window.addEventListener('hashchange', render);
-window.addEventListener('load', render);
+window.addEventListener('load', () => {
+  render();
+  setupGlobalDragAndDrop();
+});
+
+/* ── Global Drag and Drop Integration ── */
+function setupGlobalDragAndDrop() {
+  let dragCounter = 0;
+
+  function showGlobalDragOverlay() {
+    let overlay = document.getElementById('global-drag-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'global-drag-overlay';
+      overlay.className = 'global-drag-overlay';
+      overlay.innerHTML = `
+        <div class="global-drag-content">
+          <div class="global-drag-icon">📥</div>
+          <h2>DROP IT LIKE IT'S HOT!</h2>
+          <p>Drop your Image or Document here to start processing instantly!</p>
+          <div class="global-drag-formats">
+            <span class="format-badge badge-image">🖼️ Images (JPG, PNG, WEBP)</span>
+            <span class="format-badge badge-pdf">📄 PDF Documents</span>
+            <span class="format-badge badge-word">📝 Word Docs (DOCX)</span>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+    overlay.classList.add('active');
+  }
+
+  function hideGlobalDragOverlay() {
+    const overlay = document.getElementById('global-drag-overlay');
+    if (overlay) {
+      overlay.classList.remove('active');
+    }
+  }
+
+  window.addEventListener('dragenter', (e) => {
+    e.preventDefault();
+    if (e.dataTransfer && e.dataTransfer.types.includes('Files')) {
+      dragCounter++;
+      showGlobalDragOverlay();
+    }
+  });
+
+  window.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    // Only decrement if we're leaving the window/overlay
+    dragCounter--;
+    if (dragCounter <= 0) {
+      hideGlobalDragOverlay();
+      dragCounter = 0;
+    }
+  });
+
+  window.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  });
+
+  window.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dragCounter = 0;
+    hideGlobalDragOverlay();
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleDroppedFile(e.dataTransfer.files[0]);
+    }
+  });
+}
+
+function handleDroppedFile(file) {
+  const name = file.name.toLowerCase();
+  if (name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png') || name.endsWith('.webp')) {
+    window.pendingDroppedFile = file;
+    navigateTo('/tool/compress-image');
+  } else if (name.endsWith('.pdf')) {
+    window.pendingDroppedFile = file;
+    navigateTo('/tool/compress-pdf');
+  } else if (name.endsWith('.docx')) {
+    window.pendingDroppedFile = file;
+    navigateTo('/tool/word-to-pdf');
+  } else {
+    // Show toast for unsupported file types
+    showToast('Unsupported format for instant drop. Drop a JPG, PNG, WEBP, PDF, or DOCX!', 'warning');
+  }
+}
+

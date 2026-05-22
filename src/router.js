@@ -13,7 +13,9 @@ export function navigateTo(path) {
 
 export function router() {
   const route = getRoute();
-  if (route === '/' || route === '') return renderHome();
+  if (route === '/' || route === '' || ['/image', '/pdf', '/social', '/text'].includes(route)) {
+    return renderHome();
+  }
   if (route.startsWith('/tool/')) {
     const toolId = route.replace('/tool/', '');
     return renderToolPage(toolId);
