@@ -312,10 +312,46 @@ function setupPdfTool(toolId) {
     const zone = document.getElementById(zoneId);
     const input = document.getElementById(zoneId + 'Input');
     if (!zone || !input) return;
-    ['dragover', 'dragenter'].forEach(e => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.add('drag-over'); }));
-    ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, () => zone.classList.remove('drag-over')));
-    zone.addEventListener('drop', (e) => { e.preventDefault(); onFiles(Array.from(e.dataTransfer.files)); });
-    input.addEventListener('change', () => { onFiles(Array.from(input.files)); });
+
+    ['dragover', 'dragenter'].forEach(e => zone.addEventListener(e, (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      zone.classList.add('drag-over');
+    }));
+
+    ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, (ev) => {
+      ev.stopPropagation();
+      zone.classList.remove('drag-over');
+    }));
+
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.dataTransfer.files.length) {
+        onFiles(Array.from(e.dataTransfer.files));
+      }
+    });
+
+    zone.addEventListener('click', () => {
+      input.click();
+    });
+
+    zone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        input.click();
+      }
+    });
+
+    input.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    input.addEventListener('change', () => {
+      if (input.files.length) {
+        onFiles(Array.from(input.files));
+      }
+    });
   }
 
   function showFileInfo(files) {

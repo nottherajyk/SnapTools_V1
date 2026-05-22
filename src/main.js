@@ -253,12 +253,28 @@ function setupGlobalDragAndDrop() {
     hideGlobalDragOverlay();
 
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleDroppedFile(e.dataTransfer.files[0]);
+      handleDroppedFiles(e.dataTransfer.files);
     }
   });
 }
 
-function handleDroppedFile(file) {
+function handleDroppedFiles(files) {
+  // 1. Check if there is an active local dropzone input on the current page
+  const localInput = document.querySelector('.dropzone input[type="file"], .drop-zone input[type="file"]');
+  if (localInput) {
+    // Populate the local file input and dispatch change event
+    const dt = new DataTransfer();
+    for (let i = 0; i < files.length; i++) {
+      dt.items.add(files[i]);
+    }
+    localInput.files = dt.files;
+    localInput.dispatchEvent(new Event('change'));
+    showToast('File loaded into active tool!', 'success');
+    return;
+  }
+
+  // 2. If no local dropzone is active (e.g., user is on homepage/dashboard), perform global redirect based on the first file
+  const file = files[0];
   const name = file.name.toLowerCase();
   if (name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png') || name.endsWith('.webp')) {
     window.pendingDroppedFile = file;

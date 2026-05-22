@@ -470,8 +470,16 @@ function setupSocialTool(toolId) {
     const zone = document.getElementById('xSlicer');
     const input = document.getElementById('xSlicerInput');
     if (zone && input) {
-      ['dragover', 'dragenter'].forEach(e => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.add('drag-over'); }));
-      ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, () => zone.classList.remove('drag-over')));
+      ['dragover', 'dragenter'].forEach(e => zone.addEventListener(e, (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        zone.classList.add('drag-over');
+      }));
+
+      ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, (ev) => {
+        ev.stopPropagation();
+        zone.classList.remove('drag-over');
+      }));
 
       const handleFile = (files) => {
         currentFile = files[0];
@@ -494,8 +502,30 @@ function setupSocialTool(toolId) {
         reader.readAsDataURL(currentFile);
       };
 
-      zone.addEventListener('drop', (e) => { e.preventDefault(); if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files); });
-      input.addEventListener('change', () => { if (input.files.length) handleFile(input.files); });
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files);
+      });
+
+      zone.addEventListener('click', () => {
+        input.click();
+      });
+
+      zone.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          input.click();
+        }
+      });
+
+      input.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+
+      input.addEventListener('change', () => {
+        if (input.files.length) handleFile(input.files);
+      });
     }
 
     document.getElementById('sliceBtn')?.addEventListener('click', async () => {

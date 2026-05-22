@@ -1,4 +1,4 @@
-﻿export function formatBytes(bytes) {
+export function formatBytes(bytes) {
   if (bytes === 0) return '0 B';
   const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -146,21 +146,23 @@ export function copyToClipboard(text) {
 
 export function renderDropZone(id, accept, label = 'Drop your file here or click to browse') {
   return `
-    <div class="drop-zone" id="${id}">
-      <div class="drop-zone-icon">&#128194;</div>
-      <h3>${label}</h3>
-      <p>Supports ${accept.toUpperCase()} files</p>
-      <input type="file" accept="${accept}" id="${id}Input" />
+    <div class="dropzone" id="${id}" tabindex="0" role="button" aria-label="${label}">
+      <div class="dropzone-icon">&#128194;</div>
+      <h3 class="dropzone-text">${label}</h3>
+      <p class="dropzone-hint">Supports ${accept.toUpperCase()} files</p>
+      <button class="btn btn-primary dropzone-btn" type="button" style="margin-top: 1.25rem; pointer-events: none; padding: 0.65rem 1.5rem; font-size: 0.95rem;">Choose File 📂</button>
+      <input type="file" accept="${accept}" id="${id}Input" style="display: none;" />
     </div>`;
 }
 
 export function renderMultiDropZone(id, accept, label = 'Drop your files here or click to browse') {
   return `
-    <div class="drop-zone" id="${id}">
-      <div class="drop-zone-icon">&#128194;</div>
-      <h3>${label}</h3>
-      <p>Supports ${accept.toUpperCase()} files &#8212; Multiple files allowed</p>
-      <input type="file" accept="${accept}" id="${id}Input" multiple />
+    <div class="dropzone" id="${id}" tabindex="0" role="button" aria-label="${label}">
+      <div class="dropzone-icon">&#128194;</div>
+      <h3 class="dropzone-text">${label}</h3>
+      <p class="dropzone-hint">Supports ${accept.toUpperCase()} files &#8212; Multiple files allowed</p>
+      <button class="btn btn-primary dropzone-btn" type="button" style="margin-top: 1.25rem; pointer-events: none; padding: 0.65rem 1.5rem; font-size: 0.95rem;">Choose Files 📂</button>
+      <input type="file" accept="${accept}" id="${id}Input" multiple style="display: none;" />
     </div>`;
 }
 
@@ -170,9 +172,40 @@ export function setupDropZone(zoneId, inputId, onFile) {
     const input = document.getElementById(inputId);
     if (!zone || !input) return;
 
-    ['dragover', 'dragenter'].forEach(e => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.add('drag-over'); }));
-    ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, () => zone.classList.remove('drag-over')));
-    zone.addEventListener('drop', (e) => { e.preventDefault(); if (e.dataTransfer.files.length) onFile(e.dataTransfer.files); });
-    input.addEventListener('change', () => { if (input.files.length) onFile(input.files); });
+    ['dragover', 'dragenter'].forEach(e => zone.addEventListener(e, (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      zone.classList.add('drag-over');
+    }));
+
+    ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, (ev) => {
+      ev.stopPropagation();
+      zone.classList.remove('drag-over');
+    }));
+
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.dataTransfer.files.length) onFile(e.dataTransfer.files);
+    });
+
+    zone.addEventListener('click', () => {
+      input.click();
+    });
+
+    zone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        input.click();
+      }
+    });
+
+    input.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    input.addEventListener('change', () => {
+      if (input.files.length) onFile(input.files);
+    });
   });
 }
