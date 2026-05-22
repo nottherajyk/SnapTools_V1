@@ -198,6 +198,48 @@ function renderYouTubeDownloader() {
 function setupSocialTool(toolId) {
   // Thumbnail Grabber
   if (toolId === 'thumbnail-grabber') {
+    const grid = document.getElementById('thumbnailGrid');
+    if (grid && !grid.dataset.listenerAttached) {
+      grid.dataset.listenerAttached = 'true';
+      grid.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.download-thumb-btn');
+        if (!btn) return;
+
+        const imageUrl = btn.getAttribute('data-url');
+        const filename = btn.getAttribute('data-filename');
+        if (!imageUrl || !filename) return;
+
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<span class="spinner-sm" style="width:12px;height:12px;border-width:2px;display:inline-block;margin-right:4px"></span>Fetching...';
+        btn.disabled = true;
+
+        try {
+          let response;
+          try {
+            // Try direct fetch first
+            response = await fetch(imageUrl);
+            if (!response.ok) throw new Error('Direct fetch failed');
+          } catch (err) {
+            // Fallback to CORS proxy
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(imageUrl)}`;
+            response = await fetch(proxyUrl);
+            if (!response.ok) throw new Error('Proxy fetch failed');
+          }
+
+          const blob = await response.blob();
+          downloadBlob(blob, filename);
+          showToast('Download started!');
+        } catch (err) {
+          console.error('Failed to download thumbnail', err);
+          showToast('Failed to download directly. Opening in new tab...', 'warning');
+          window.open(imageUrl, '_blank');
+        } finally {
+          btn.innerHTML = originalHtml;
+          btn.disabled = false;
+        }
+      });
+    }
+
     document.getElementById('grabBtn')?.addEventListener('click', () => {
       const url = document.getElementById('ytUrl')?.value.trim();
       if (!url) { showToast('Please enter a YouTube URL', 'error'); return; }
@@ -212,7 +254,6 @@ function setupSocialTool(toolId) {
         { name: 'Default', url: `https://img.youtube.com/vi/${videoId}/default.jpg` },
       ];
 
-      const grid = document.getElementById('thumbnailGrid');
       const resultArea = document.getElementById('resultArea');
       if (grid && resultArea) {
         resultArea.classList.add('visible');
@@ -221,7 +262,7 @@ function setupSocialTool(toolId) {
             <img src="${s.url}" alt="${s.name}" style="width:100%;display:block" onerror="this.style.display='none'" />
             <div style="padding:.75rem">
               <div style="font-size:.85rem;font-weight:600;margin-bottom:.5rem">${s.name}</div>
-              <a href="${s.url}" download="${videoId}-${s.name.toLowerCase().replace(/\s+/g,'-')}.jpg" target="_blank" class="btn btn-secondary" style="font-size:.8rem;padding:.35rem .75rem">📥 Download</a>
+              <button data-url="${s.url}" data-filename="${videoId}-${s.name.toLowerCase().replace(/\s+/g,'-')}.jpg" class="btn btn-secondary download-thumb-btn" style="font-size:.8rem;padding:.35rem .75rem">📥 Download</button>
             </div>
           </div>
         `).join('');
