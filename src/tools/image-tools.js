@@ -254,6 +254,14 @@ function setupImageTool(toolId) {
   let compressionTimeout = null;
   let latestCompressedBlob = null;
 
+  const dropIds = { 'webp-to-jpg':'imgConv', 'png-to-jpg':'imgConv', 'jpg-to-png':'imgConv', 'svg-to-png':'imgConv',
+    'jpg-to-svg':'imgSvg', 'png-to-svg':'imgSvg', 'compress-image':'imgComp',
+    'image-to-base64':'imgB64', 'image-cropper':'imgCrop', 'invert-colors':'imgFilter', 'black-and-white':'imgFilter' };
+
+  const zoneId = dropIds[toolId];
+  const zone = zoneId ? document.getElementById(zoneId) : null;
+  const input = zoneId ? document.getElementById(zoneId + 'Input') : null;
+
   const formats = {
     'webp-to-jpg': { to: 'image/jpeg', ext: 'jpg' },
     'png-to-jpg': { to: 'image/jpeg', ext: 'jpg' },
@@ -286,6 +294,9 @@ function setupImageTool(toolId) {
   // File handler for image conversion tools
   function handleImageFile(files) {
     currentFile = files[0];
+    if (zone) {
+      zone.style.display = 'none';
+    }
     const reader = new FileReader();
     reader.onload = (e) => {
       currentDataURL = e.target.result;
@@ -310,6 +321,7 @@ function setupImageTool(toolId) {
                 <div class="file-info-name" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${currentFile.name}</div>
                 <div class="file-info-size" id="original-size-badge" style="font-weight: 700;">${formatBytes(currentFile.size)}</div>
               </div>
+              <button class="file-info-remove" type="button" aria-label="Remove File">&times;</button>
             </div>`;
         }
         
@@ -333,10 +345,64 @@ function setupImageTool(toolId) {
               <div class="file-info-name">${currentFile.name}</div>
               <div class="file-info-size">${formatBytes(currentFile.size)}</div>
             </div>
+            <button class="file-info-remove" type="button" aria-label="Remove File">&times;</button>
           </div>`;
       }
     };
     reader.readAsDataURL(currentFile);
+
+    // Expose instance-specific image reset function
+    window.activeImageReset = () => {
+      currentFile = null;
+      currentDataURL = null;
+      latestCompressedBlob = null;
+      if (input) input.value = '';
+
+      const infoArea = document.getElementById('fileInfoArea');
+      if (infoArea) infoArea.innerHTML = '';
+
+      const preview = document.getElementById('previewArea');
+      if (preview) preview.style.display = 'none';
+
+      const origImg = document.getElementById('origPreviewImg');
+      if (origImg) origImg.src = '';
+      const compImg = document.getElementById('previewImg');
+      if (compImg) compImg.src = '';
+
+      const initial = document.getElementById('compressor-initial-state');
+      const activeState = document.getElementById('compressor-active-state');
+      if (initial) initial.style.display = '';
+      if (activeState) activeState.style.display = 'none';
+
+      const convertBtn = document.getElementById('convertBtn');
+      if (convertBtn) convertBtn.disabled = true;
+
+      const resultArea = document.getElementById('resultArea');
+      if (resultArea) {
+        resultArea.classList.remove('visible');
+        const resultMeta = document.getElementById('resultMeta');
+        if (resultMeta) resultMeta.innerHTML = '';
+      }
+
+      if (zone) {
+        zone.style.display = 'flex';
+      }
+    };
+
+    if (!document.body.dataset.imageResetAttached) {
+      document.body.dataset.imageResetAttached = 'true';
+      document.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.file-info-remove');
+        if (!removeBtn) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (typeof window.activeImageReset === 'function') {
+          window.activeImageReset();
+        }
+      });
+    }
   }
 
   function updateRealtimeCompression() {
@@ -407,14 +473,7 @@ function setupImageTool(toolId) {
   }
 
   // Setup drop zones
-  const dropIds = { 'webp-to-jpg':'imgConv', 'png-to-jpg':'imgConv', 'jpg-to-png':'imgConv', 'svg-to-png':'imgConv',
-    'jpg-to-svg':'imgSvg', 'png-to-svg':'imgSvg', 'compress-image':'imgComp',
-    'image-to-base64':'imgB64', 'image-cropper':'imgCrop', 'invert-colors':'imgFilter', 'black-and-white':'imgFilter' };
-
-  const zoneId = dropIds[toolId];
   if (zoneId) {
-    const zone = document.getElementById(zoneId);
-    const input = document.getElementById(zoneId + 'Input');
     if (zone && input) {
       ['dragover', 'dragenter'].forEach(e => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.add('drag-over'); }));
       ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, () => zone.classList.remove('drag-over')));

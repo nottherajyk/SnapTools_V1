@@ -483,6 +483,8 @@ function setupSocialTool(toolId) {
 
       const handleFile = (files) => {
         currentFile = files[0];
+        zone.style.display = 'none';
+        
         const reader = new FileReader();
         reader.onload = (e) => {
           currentDataURL = e.target.result;
@@ -496,6 +498,7 @@ function setupSocialTool(toolId) {
                   <div class="file-info-name">${currentFile.name}</div>
                   <div class="file-info-size">${formatBytes(currentFile.size)}</div>
                 </div>
+                <button class="file-info-remove" type="button" aria-label="Remove File">&times;</button>
               </div>`;
           }
         };
@@ -526,6 +529,44 @@ function setupSocialTool(toolId) {
       input.addEventListener('change', () => {
         if (input.files.length) handleFile(input.files);
       });
+
+      // Expose instance-specific social reset function
+      window.activeSocialReset = () => {
+        currentFile = null;
+        currentDataURL = null;
+        if (input) input.value = '';
+
+        const infoArea = document.getElementById('fileInfoArea');
+        if (infoArea) infoArea.innerHTML = '';
+
+        const preview = document.getElementById('previewArea');
+        if (preview) preview.style.display = 'none';
+
+        const sliceGrid = document.getElementById('sliceGrid');
+        if (sliceGrid) sliceGrid.innerHTML = '';
+
+        const sliceBtn = document.getElementById('sliceBtn');
+        if (sliceBtn) sliceBtn.disabled = true;
+
+        if (zone) {
+          zone.style.display = 'flex';
+        }
+      };
+
+      if (!document.body.dataset.socialResetAttached) {
+        document.body.dataset.socialResetAttached = 'true';
+        document.addEventListener('click', (e) => {
+          const removeBtn = e.target.closest('.file-info-remove');
+          if (!removeBtn) return;
+          
+          e.preventDefault();
+          e.stopPropagation();
+
+          if (typeof window.activeSocialReset === 'function') {
+            window.activeSocialReset();
+          }
+        });
+      }
     }
 
     document.getElementById('sliceBtn')?.addEventListener('click', async () => {

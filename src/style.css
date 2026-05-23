@@ -2429,3 +2429,84 @@ input[type="range"]::-webkit-slider-thumb:hover {
   to { transform: rotate(360deg); }
 }
 
+/* ==========================================================================
+   Snaptools - Premium Transitions & Brutalist Interactive Elements
+   ========================================================================== */
+
+/* Page Entry Transitions */
+.tool-page,
+.hero,
+.category-tabs,
+.tools-section {
+  animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Page Exit Transitions */
+.page-exit-active .hero,
+.page-exit-active .category-tabs,
+.page-exit-active .tools-section,
+.page-exit-active .tool-page {
+  opacity: 0 !important;
+  transform: translateY(-20px) scale(0.98) !important;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Tool Card Click Tactile Micro-Interaction */
+.tool-card.clicked-anim {
+  transform: scale(0.95) translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* File Info & Brutalist Close Button */
+.file-info {
+  position: relative;
+  padding-right: 3.5rem !important; /* Make room for the close button */
+}
+
+.file-info-remove {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent); /* Starface Hot Pink */
+  color: #FFFFFF;
+  border: 2px solid #000000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px #000000;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+  z-index: 5;
+}
+
+.file-info-remove:hover {
+  background: #FF3399; /* Brighter Starface Pink */
+  transform: translateY(-50%) translate(-1px, -1px);
+  box-shadow: 3px 3px 0px #000000;
+}
+
+.file-info-remove:active {
+  transform: translateY(-50%) translate(1px, 1px);
+  box-shadow: 1px 1px 0px #000000;
+}
+
+

@@ -291,3 +291,45 @@ function handleDroppedFiles(files) {
   }
 }
 
+// ===== GLOBAL PAGE TRANSITION CLICK INTERCEPTOR =====
+document.addEventListener('click', (e) => {
+  const card = e.target.closest('.tool-card');
+  const navLink = e.target.closest('[data-nav]');
+  
+  const target = card || navLink;
+  if (!target) return;
+
+  const href = target.getAttribute('href') || (target.tagName === 'A' ? target.href : '');
+  const dataNav = target.getAttribute('data-nav');
+  const path = dataNav || (href && href.startsWith('#') ? href.slice(1) : href);
+
+  if (!path) return;
+
+  // We want to trigger transitions if navigating to tools, home page, or filters
+  const isTool = path.includes('/tool/');
+  const isHome = path === '/' || path === '' || ['/image', '/pdf', '/social', '/text'].includes(path);
+
+  if (card || isTool || isHome) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // 1. Tactile click feedback
+    if (card) {
+      card.classList.add('clicked-anim');
+    }
+
+    // 2. Play exit transition on app contents
+    app.classList.add('page-exit-active');
+
+    // 3. Complete navigation after delay
+    setTimeout(() => {
+      app.classList.remove('page-exit-active');
+      if (card) {
+        card.classList.remove('clicked-anim');
+      }
+      navigateTo(path);
+    }, 250);
+  }
+}, { capture: true });
+
+

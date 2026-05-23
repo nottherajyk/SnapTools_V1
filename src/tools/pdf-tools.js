@@ -324,11 +324,38 @@ function setupPdfTool(toolId) {
       zone.classList.remove('drag-over');
     }));
 
+    function handleSelectedFiles(files) {
+      if (!files || !files.length) return;
+      zone.style.display = 'none';
+      onFiles(files);
+      
+      // Special logic for multi-file PDF merger
+      if (zoneId === 'pdfMerge') {
+        const listArea = document.getElementById('fileListArea');
+        if (listArea) {
+          let addMoreBtn = document.getElementById('mergeAddMoreBtn');
+          if (!addMoreBtn) {
+            addMoreBtn = document.createElement('button');
+            addMoreBtn.id = 'mergeAddMoreBtn';
+            addMoreBtn.type = 'button';
+            addMoreBtn.className = 'btn btn-secondary';
+            addMoreBtn.style.marginTop = '1rem';
+            addMoreBtn.style.width = '100%';
+            addMoreBtn.innerHTML = '➕ Add More Files';
+            addMoreBtn.addEventListener('click', () => {
+              input.click();
+            });
+            listArea.parentNode.insertBefore(addMoreBtn, listArea.nextSibling);
+          }
+        }
+      }
+    }
+
     zone.addEventListener('drop', (e) => {
       e.preventDefault();
       e.stopPropagation();
       if (e.dataTransfer.files.length) {
-        onFiles(Array.from(e.dataTransfer.files));
+        handleSelectedFiles(Array.from(e.dataTransfer.files));
       }
     });
 
@@ -349,9 +376,93 @@ function setupPdfTool(toolId) {
 
     input.addEventListener('change', () => {
       if (input.files.length) {
-        onFiles(Array.from(input.files));
+        handleSelectedFiles(Array.from(input.files));
       }
     });
+
+    // Dynamic instance-specific reset binder
+    window.activePdfReset = (dataIdx) => {
+      if (input) input.value = '';
+      const addMoreBtn = document.getElementById('mergeAddMoreBtn');
+      if (addMoreBtn) addMoreBtn.remove();
+      
+      if (dataIdx !== null) {
+        const idx = parseInt(dataIdx, 10);
+        currentFiles.splice(idx, 1);
+        const listArea = document.getElementById('fileListArea');
+        if (listArea) {
+          if (currentFiles.length === 0) {
+            listArea.innerHTML = '';
+            const mergeBtn = document.getElementById('mergeBtn');
+            if (mergeBtn) mergeBtn.disabled = true;
+            if (zone) zone.style.display = 'flex';
+          } else {
+            listArea.innerHTML = currentFiles.map((f, i) => `
+              <div class="file-info" style="margin-bottom:.5rem">
+                <div class="file-info-icon">📄</div>
+                <div class="file-info-details">
+                  <div class="file-info-name">${i + 1}. ${f.name}</div>
+                  <div class="file-info-size">${formatBytes(f.size)}</div>
+                </div>
+                <button class="file-info-remove" data-idx="${i}" type="button" aria-label="Remove File">&times;</button>
+              </div>`).join('');
+            
+            let addMoreBtn = document.createElement('button');
+            addMoreBtn.id = 'mergeAddMoreBtn';
+            addMoreBtn.type = 'button';
+            addMoreBtn.className = 'btn btn-secondary';
+            addMoreBtn.style.marginTop = '1rem';
+            addMoreBtn.style.width = '100%';
+            addMoreBtn.innerHTML = '➕ Add More Files';
+            addMoreBtn.addEventListener('click', () => {
+              if (input) input.click();
+            });
+            listArea.parentNode.insertBefore(addMoreBtn, listArea.nextSibling);
+          }
+        }
+      } else {
+        currentFiles = [];
+        const fileInfoArea = document.getElementById('fileInfoArea');
+        if (fileInfoArea) fileInfoArea.innerHTML = '';
+        const fileListArea = document.getElementById('fileListArea');
+        if (fileListArea) fileListArea.innerHTML = '';
+        
+        const actionButtons = ['convertBtn', 'protectBtn', 'unlockBtn', 'mergeBtn', 'splitBtn', 'organizeBtn', 'compressBtn'];
+        actionButtons.forEach(id => {
+          const btn = document.getElementById(id);
+          if (btn) btn.disabled = true;
+        });
+        
+        const resultArea = document.getElementById('resultArea');
+        if (resultArea) {
+          resultArea.classList.remove('visible');
+          const resultMeta = document.getElementById('resultMeta');
+          if (resultMeta) resultMeta.innerHTML = '';
+        }
+        
+        const metadataOutput = document.getElementById('metadataOutput');
+        if (metadataOutput) metadataOutput.innerHTML = '';
+        
+        const zipBtn = document.getElementById('downloadZipBtn');
+        if (zipBtn) zipBtn.remove();
+        
+        if (zone) zone.style.display = 'flex';
+      }
+    };
+
+    if (!document.body.dataset.pdfResetAttached) {
+      document.body.dataset.pdfResetAttached = 'true';
+      document.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.file-info-remove');
+        if (!removeBtn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof window.activePdfReset === 'function') {
+          const dataIdx = removeBtn.getAttribute('data-idx');
+          window.activePdfReset(dataIdx);
+        }
+      });
+    }
   }
 
   function showFileInfo(files) {
@@ -364,8 +475,10 @@ function setupPdfTool(toolId) {
           <div class="file-info-name">${f.name}</div>
           <div class="file-info-size">${formatBytes(f.size)}</div>
         </div>
+        <button class="file-info-remove" type="button" aria-label="Remove File">&times;</button>
       </div>`).join('');
   }
+
 
   // PDF Metadata
   if (toolId === 'pdf-metadata') {
