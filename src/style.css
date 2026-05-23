@@ -350,10 +350,6 @@ mark {
 
 /* ----- Mobile Navigation ----- */
 @media (max-width: 768px) {
-  #app {
-    padding-top: var(--nav-height);
-  }
-
   .navbar {
     position: fixed;
     top: 0; left: 0; right: 0;
