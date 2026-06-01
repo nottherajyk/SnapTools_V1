@@ -66,7 +66,7 @@ function renderPasswordGen() {
       <button class="btn btn-primary" id="generateBtn">🔐 Generate Password</button>
     </div>
     <div class="result-area" id="resultArea">
-      <div class="password-display" id="passwordDisplay" style="font-family:monospace;font-size:1.4rem;letter-spacing:2px;word-break:break-all;padding:1.5rem;background:var(--surface-dark);border-radius:12px;text-align:center"></div>
+      <div class="password-display" id="passwordDisplay" style="font-family:monospace;font-size:1.4rem;letter-spacing:2px;word-break:break-all;padding:1.5rem;background:var(--surface-light);border-radius:12px;text-align:center"></div>
       <div class="password-strength" id="passwordStrength" style="margin-top:.75rem;text-align:center"></div>
       <div class="actions-row" style="margin-top:1rem">
         <button class="btn btn-secondary" id="copyPwBtn">📋 Copy</button>
@@ -94,7 +94,7 @@ function renderTextBinary(type) {
     </div>
     <div class="form-group">
       <label class="form-label">${toLabel}</label>
-      <textarea class="form-textarea" id="outputText" readonly style="min-height:100px;background:var(--surface-dark)"></textarea>
+      <textarea class="form-textarea" id="outputText" readonly style="min-height:100px;background:var(--surface-light)"></textarea>
     </div>
     <div class="actions-row">
       <button class="btn btn-secondary" id="copyBtn">📋 Copy Result</button>
@@ -114,7 +114,7 @@ function renderTextTransform(type) {
     </div>
     <div class="form-group">
       <label class="form-label">Result</label>
-      <textarea class="form-textarea" id="outputText" readonly style="min-height:100px;background:var(--surface-dark)"></textarea>
+      <textarea class="form-textarea" id="outputText" readonly style="min-height:100px;background:var(--surface-light)"></textarea>
     </div>
     <div class="actions-row">
       <button class="btn btn-secondary" id="copyBtn">📋 Copy Result</button>
@@ -133,7 +133,7 @@ function renderListTool(type) {
     </div>
     <div class="form-group">
       <label class="form-label">Result</label>
-      <textarea class="form-textarea" id="outputText" readonly style="min-height:120px;background:var(--surface-dark)"></textarea>
+      <textarea class="form-textarea" id="outputText" readonly style="min-height:120px;background:var(--surface-light)"></textarea>
     </div>
     <div class="actions-row">
       <button class="btn btn-secondary" id="copyBtn">📋 Copy Result</button>
@@ -167,7 +167,7 @@ function renderRepeatText() {
     </div>
     <div class="form-group">
       <label class="form-label">Result</label>
-      <textarea class="form-textarea" id="outputText" readonly style="min-height:100px;background:var(--surface-dark)"></textarea>
+      <textarea class="form-textarea" id="outputText" readonly style="min-height:100px;background:var(--surface-light)"></textarea>
     </div>
     <div class="actions-row">
       <button class="btn btn-secondary" id="copyBtn">📋 Copy Result</button>
@@ -185,7 +185,7 @@ function renderIpToBinary() {
       <button class="btn btn-primary" id="convertBtn">🌐 Convert</button>
     </div>
     <div class="result-area" id="resultArea">
-      <div id="ipResult" style="font-family:monospace;font-size:1.1rem;padding:1rem;background:var(--surface-dark);border-radius:8px"></div>
+      <div id="ipResult" style="font-family:monospace;font-size:1.1rem;padding:1rem;background:var(--surface-light);border-radius:8px"></div>
     </div>
   `;
 }
@@ -200,7 +200,7 @@ function renderNumbersToWords() {
       <button class="btn btn-primary" id="convertBtn">#️⃣ Convert</button>
     </div>
     <div class="result-area" id="resultArea">
-      <div id="wordsResult" style="font-size:1.2rem;padding:1rem;background:var(--surface-dark);border-radius:8px;text-transform:capitalize"></div>
+      <div id="wordsResult" style="font-size:1.2rem;padding:1rem;background:var(--surface-light);border-radius:8px;text-transform:capitalize"></div>
     </div>
   `;
 }
@@ -262,7 +262,7 @@ function renderBionicReading() {
       <button class="btn btn-primary" id="convertBtn">📖 Convert</button>
     </div>
     <div class="result-area" id="resultArea">
-      <div id="bionicOutput" style="font-size:1.05rem;line-height:1.8;padding:1.5rem;background:var(--surface-dark);border-radius:12px"></div>
+      <div id="bionicOutput" style="font-size:1.05rem;line-height:1.8;padding:1.5rem;background:var(--surface-light);border-radius:12px"></div>
     </div>
   `;
 }
