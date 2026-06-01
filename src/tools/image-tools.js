@@ -478,6 +478,7 @@ function setupImageTool(toolId) {
       ['dragover', 'dragenter'].forEach(e => zone.addEventListener(e, (ev) => { ev.preventDefault(); zone.classList.add('drag-over'); }));
       ['dragleave', 'drop'].forEach(e => zone.addEventListener(e, () => zone.classList.remove('drag-over')));
       zone.addEventListener('drop', (e) => { e.preventDefault(); if (e.dataTransfer.files.length) handleImageFile(e.dataTransfer.files); });
+      zone.addEventListener('click', () => input.click());
       input.addEventListener('change', () => { if (input.files.length) handleImageFile(input.files); });
     }
   }
