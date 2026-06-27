@@ -13,6 +13,7 @@ export function socialToolHandler(tool) {
     case 'x-image-slicer': return renderXImageSlicer();
     case 'instagram-downloader': return renderInstagramDownloader();
     case 'youtube-downloader': return renderYouTubeDownloader();
+    case 'pinterest-downloader': return renderPinterestDownloader();
     default: return `<p>Tool coming soon!</p>`;
   }
 }
@@ -190,6 +191,29 @@ function renderYouTubeDownloader() {
     </div>
     <div style="margin-top:1rem;padding:1rem;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
       <p style="font-size:.8rem;color:var(--text-muted)">💡 <strong>Note:</strong> High-resolution videos (1080p+) are often split into separate streams by YouTube. Only fully mixed formats (usually up to 720p) and standard audio formats are shown here.</p>
+    </div>
+  `;
+}
+
+function renderPinterestDownloader() {
+  return `
+    <div class="form-group">
+      <label class="form-label">Pinterest Pin URL</label>
+      <input type="text" class="form-input" id="pinUrl" placeholder="https://www.pinterest.com/pin/123456789/" />
+    </div>
+    <div class="actions-row">
+      <button class="btn btn-primary" id="pinFetchBtn">📌 Fetch Image</button>
+    </div>
+    <div class="result-area" id="resultArea">
+      <div id="pinLoading" style="display:none;text-align:center;padding:2rem">
+        <div class="spinner-sm" style="width:28px;height:28px;border-width:3px;margin:0 auto 1rem"></div>
+        <p style="color:var(--text-muted);font-size:.9rem">Fetching pin data...</p>
+      </div>
+      <div id="pinResult"></div>
+    </div>
+    <div style="margin-top:1rem;padding:1rem;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+      <p style="font-size:.8rem;color:var(--text-muted)">📌 <strong>How to use:</strong> Paste any Pinterest pin URL (e.g. pinterest.com/pin/123456789/) and click Fetch Image. The image will be fetched in its original native resolution for you to download.</p>
+      <p style="font-size:.8rem;color:var(--text-muted);margin-top:.5rem">💡 <strong>Tip:</strong> You can also paste shortened pin.it links — they will be resolved automatically.</p>
     </div>
   `;
 }
@@ -843,6 +867,146 @@ function setupSocialTool(toolId) {
         showToast('Error: ' + e.message, 'error');
       } finally {
         if (fetchBtn) { fetchBtn.disabled = false; fetchBtn.innerHTML = '📥 Fetch Video'; }
+      }
+    });
+  }
+
+  // Pinterest Image Downloader
+  if (toolId === 'pinterest-downloader') {
+    document.getElementById('pinFetchBtn')?.addEventListener('click', async () => {
+      const url = document.getElementById('pinUrl')?.value.trim();
+      if (!url) { showToast('Please enter a Pinterest URL', 'error'); return; }
+
+      // Basic validation
+      if (!url.includes('pinterest.com') && !url.includes('pin.it')) {
+        showToast('Invalid Pinterest URL. Use a pinterest.com/pin/... or pin.it/... link', 'error');
+        return;
+      }
+
+      const loading = document.getElementById('pinLoading');
+      const result = document.getElementById('pinResult');
+      const resultArea = document.getElementById('resultArea');
+      const fetchBtn = document.getElementById('pinFetchBtn');
+
+      if (loading) loading.style.display = '';
+      if (result) result.innerHTML = '';
+      if (resultArea) resultArea.classList.add('visible');
+      if (fetchBtn) { fetchBtn.disabled = true; fetchBtn.innerHTML = '<span class="spinner-sm"></span> Fetching...'; }
+
+      try {
+        // Call our API to get image info
+        const apiUrl = `/api/pinterest?url=${encodeURIComponent(url)}&mode=info`;
+        const resp = await fetch(apiUrl);
+
+        if (!resp.ok) {
+          const errData = await resp.json().catch(() => ({}));
+          throw new Error(errData.error || 'Failed to fetch pin. It may be private or invalid.');
+        }
+
+        const data = await resp.json();
+        if (!data.images || data.images.length === 0) {
+          throw new Error('No images found for this pin.');
+        }
+
+        if (loading) loading.style.display = 'none';
+
+        // Render the images grid
+        const imgCount = data.images.length;
+        const uniqueImages = data.images.slice(0, 6); // Cap at 6 max
+
+        const imagesHtml = uniqueImages.map((img, i) => `
+          <div style="background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid var(--border);display:flex;flex-direction:column">
+            <div style="position:relative;overflow:hidden;background:#0a0a0a;display:flex;align-items:center;justify-content:center;min-height:180px">
+              <img src="${img.url}" alt="Pinterest Image ${i + 1}" style="width:100%;display:block;object-fit:contain;max-height:400px" onerror="this.parentElement.innerHTML='<p style=color:var(--text-muted);padding:2rem;text-align:center>Image unavailable</p>'" />
+              <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);color:#fff;padding:2px 8px;border-radius:6px;font-size:.7rem;backdrop-filter:blur(8px)">${img.label}</div>
+            </div>
+            <div style="padding:.75rem;display:flex;gap:.5rem">
+              <button class="btn btn-primary pin-download-btn" data-url="${img.url}" data-index="${i}" style="flex:1;text-align:center;font-size:.85rem">📥 Download</button>
+              <button class="btn btn-secondary pin-open-btn" data-url="${img.url}" style="font-size:.85rem;padding:.35rem .75rem">🔗</button>
+            </div>
+          </div>
+        `).join('');
+
+        if (result) {
+          result.innerHTML = `
+            <div style="margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
+              <span style="font-size:.9rem;font-weight:600;color:var(--text)">✅ Found ${imgCount} image${imgCount > 1 ? 's' : ''} (native resolution)</span>
+              ${imgCount > 1 ? `<button class="btn btn-primary" id="pinDownloadAll" style="font-size:.8rem;padding:.4rem 1rem">📥 Download All</button>` : ''}
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem">
+              ${imagesHtml}
+            </div>
+          `;
+
+          // Attach download listeners
+          result.querySelectorAll('.pin-download-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+              const b = e.currentTarget;
+              const imgUrl = b.getAttribute('data-url');
+              const idx = b.getAttribute('data-index');
+              const originalHtml = b.innerHTML;
+              b.innerHTML = '<span class="spinner-sm" style="width:12px;height:12px;border-width:2px;display:inline-block;margin-right:4px"></span>Downloading...';
+              b.disabled = true;
+
+              try {
+                const proxyUrl = `/api/pinterest?url=${encodeURIComponent(url)}&download=1`;
+                // Try fetching the actual image directly first
+                let response;
+                try {
+                  response = await fetch(imgUrl);
+                  if (!response.ok) throw new Error('Direct failed');
+                } catch {
+                  // Fallback via our proxy
+                  response = await fetch(proxyUrl);
+                  if (!response.ok) throw new Error('Proxy failed');
+                }
+
+                const blob = await response.blob();
+                const ext = blob.type.includes('png') ? 'png' : blob.type.includes('webp') ? 'webp' : 'jpg';
+                downloadBlob(blob, `pinterest-image-${parseInt(idx) + 1}.${ext}`);
+                showToast('Download started!');
+              } catch (err) {
+                showToast('Opening image in new tab...', 'warning');
+                window.open(imgUrl, '_blank');
+              } finally {
+                b.innerHTML = originalHtml;
+                b.disabled = false;
+              }
+            });
+          });
+
+          // Open in new tab buttons
+          result.querySelectorAll('.pin-open-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              window.open(btn.getAttribute('data-url'), '_blank');
+            });
+          });
+
+          // Download all button
+          document.getElementById('pinDownloadAll')?.addEventListener('click', async () => {
+            const allBtns = result.querySelectorAll('.pin-download-btn');
+            for (const btn of allBtns) {
+              btn.click();
+              await new Promise(r => setTimeout(r, 500)); // Stagger downloads
+            }
+          });
+        }
+
+        showToast(`Found ${imgCount} image${imgCount > 1 ? 's' : ''} in native resolution!`);
+      } catch (e) {
+        if (loading) loading.style.display = 'none';
+        if (result) {
+          result.innerHTML = `
+            <div style="padding:1.5rem;text-align:center;color:var(--text-muted)">
+              <p style="font-size:2rem;margin-bottom:.5rem">😔</p>
+              <p style="font-size:.9rem;font-weight:500">${e.message}</p>
+              <p style="font-size:.8rem;margin-top:.5rem">Make sure the pin is public and the URL is correct.</p>
+            </div>
+          `;
+        }
+        showToast('Error: ' + e.message, 'error');
+      } finally {
+        if (fetchBtn) { fetchBtn.disabled = false; fetchBtn.innerHTML = '📌 Fetch Image'; }
       }
     });
   }
