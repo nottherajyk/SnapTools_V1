@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   // 1. Direct proxy by media CDN URL
   if (url) {
     try {
-      const decodedUrl = decodeURIComponent(url);
+      const decodedUrl = decodeURIComponent(url).replace(/[\s\\]+$/, '').replace(/\\+$/, '');
       if (!decodedUrl.startsWith('http://') && !decodedUrl.startsWith('https://')) {
         return res.status(400).json({ error: 'Invalid media URL' });
       }
@@ -130,12 +130,20 @@ async function fetchAllMediaItems(shortcode) {
     if (res.ok) {
       const html = await res.text();
 
+      // Helper to sanitize extracted URLs
+      const cleanUrl = u => u
+        .replace(/\\u0026/g, '&')
+        .replace(/\\\\\//g, '/')
+        .replace(/\\\//g, '/')
+        .replace(/[\s\\]+$/, '')
+        .replace(/\\+$/, '');
+
       // Extract display_url matches from Embed JSON
       const rawDisplayUrls = [...html.matchAll(/\\?"display_url\\?":\s*\\?"([^"]+)\\?"/g)]
-        .map(m => m[1].replace(/\\u0026/g, '&').replace(/\\\\\//g, '/').replace(/\\\//g, '/'));
+        .map(m => cleanUrl(m[1]));
 
       const rawVideoUrls = [...html.matchAll(/\\?"video_url\\?":\s*\\?"([^"]+)\\?"/g)]
-        .map(m => m[1].replace(/\\u0026/g, '&').replace(/\\\\\//g, '/').replace(/\\\//g, '/'));
+        .map(m => cleanUrl(m[1]));
 
       // Deduplicate display_urls while preserving slide sequence
       const uniqueDisplay = [];
