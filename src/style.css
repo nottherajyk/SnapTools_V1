@@ -60,6 +60,88 @@
   --section-padding: clamp(3rem, 6vw, 6rem);
 }
 
+/* ----- Dark Mode Overrides ----- */
+html[data-theme="dark"] {
+  --bg-primary: #12131C;       /* Midnight Slate Dark */
+  --bg-secondary: #0B0C12;     /* Deep Black */
+  --bg-surface: #1C1D2A;       /* Card Surface Dark */
+  --bg-hover: #262738;
+  --surface-dark: #12131C;
+
+  /* Borders */
+  --border: #3A3B54;
+  --border-hover: #565778;
+  --border-accent: #FF007F;
+
+  /* Accents */
+  --accent: #FF007F;           /* Starface Neon Hot Pink */
+  --accent-light: #FF85C0;
+  --accent-glow: rgba(255, 0, 127, 0.25);
+  --accent-2: #00D2FF;
+  --accent-3: #16C641;
+  --accent-4: #FFB000;
+  --warning: #FFB000;
+  --danger: #FF453A;
+  --success: #16C641;
+
+  /* Text - Vibrant Off-white */
+  --text-primary: #F5F5FA;
+  --text-secondary: #E0E0EC;
+  --text-muted: #9DA0B8;
+
+  /* Glass - dark cards */
+  --glass-bg: #1C1D2A;
+  --glass-border: #3A3B54;
+
+  /* Shadows - Dark Neo-Brutalist flat offset shadows */
+  --shadow-sm: 3px 3px 0px #000000;
+  --shadow-md: 6px 6px 0px #000000;
+  --shadow-lg: 10px 10px 0px #000000;
+}
+
+html[data-theme="dark"] body {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+}
+
+html[data-theme="dark"] .navbar {
+  border-right-color: var(--border);
+}
+
+html[data-theme="dark"] .hamburger,
+html[data-theme="dark"] .nav-link,
+html[data-theme="dark"] .nav-search-btn,
+html[data-theme="dark"] .theme-toggle-btn {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .logo-text,
+html[data-theme="dark"] .logo-text span {
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .tool-card,
+html[data-theme="dark"] .search-modal,
+html[data-theme="dark"] .thumbnail-card {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .form-input,
+html[data-theme="dark"] .form-textarea,
+html[data-theme="dark"] .form-select {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+html[data-theme="dark"] .form-input::placeholder,
+html[data-theme="dark"] .form-textarea::placeholder {
+  color: var(--text-muted);
+}
+
 /* ----- Reset & Base ----- */
 *, *::before, *::after { 
   box-sizing: border-box; 
@@ -2503,6 +2585,98 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .file-info-remove:active {
   transform: translateY(-50%) translate(1px, 1px);
   box-shadow: 1px 1px 0px #000000;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-surface);
+  border: 3px solid var(--border);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow-md);
+  background: var(--accent-2);
+  color: #000000;
+}
+
+.theme-icon-sun { display: block; }
+.theme-icon-moon { display: none; }
+
+html[data-theme="dark"] .theme-icon-sun { display: none; }
+html[data-theme="dark"] .theme-icon-moon { display: block; }
+
+/* Instagram Downloader Compact Preview Grid */
+.ig-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.ig-media-card {
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ig-media-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ig-card-header {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ig-media-thumb {
+  width: 100%;
+  height: 180px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+.ig-media-thumb img,
+.ig-media-thumb video {
+  max-height: 180px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ig-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
 }
 
 
