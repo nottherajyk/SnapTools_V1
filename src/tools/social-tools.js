@@ -649,53 +649,134 @@ function setupSocialTool(toolId) {
       if (fetchBtn) { fetchBtn.disabled = true; fetchBtn.innerHTML = '<span class="spinner-sm"></span> Fetching...'; }
 
       try {
-        const apiUrl = `/api/instagram?shortcode=${encodeURIComponent(shortcode)}`;
-        
-        // Ensure the API actually returns an image by pinging it first
-        const resp = await fetch(apiUrl, { method: 'HEAD' });
+        const infoApiUrl = `/api/instagram?shortcode=${encodeURIComponent(shortcode)}&mode=info`;
+        const resp = await fetch(infoApiUrl);
         
         if (!resp.ok) {
           throw new Error('Failed to fetch post. It may be private or unavailable.');
         }
 
+        const data = await resp.json();
+        const mediaItems = data.media || [];
+
+        if (mediaItems.length === 0) {
+          throw new Error('No photos or videos found in this post.');
+        }
+
         if (loading) loading.style.display = 'none';
         if (result) {
+          const count = mediaItems.length;
           result.innerHTML = `
-            <div style="margin-bottom:1rem">
-              <span style="font-size:.9rem;font-weight:600;color:var(--text)">✅ Image fetched successfully</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1rem">
+              <span style="font-size:.95rem;font-weight:700;color:var(--text-primary)">
+                ✅ Found ${count} ${count === 1 ? 'media item' : 'photos / videos'} in this post
+              </span>
+              ${count > 1 ? `
+                <button class="btn btn-primary" id="igDownloadAllBtn" style="font-size:0.85rem;padding:0.45rem 1rem">
+                  📦 Download All Photos (${count})
+                </button>
+              ` : ''}
             </div>
-            <div style="max-width:500px;margin:0 auto">
-              <div style="background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid var(--border)">
-                <img src="${apiUrl}" alt="Instagram post" style="width:100%;display:block;object-fit:contain" />
-                <div style="padding:1rem;display:flex;gap:.75rem">
-                  <button class="btn btn-primary" id="igDownloadFinal" style="flex:1;text-align:center">📥 Download JPG</button>
-                  <button class="btn btn-secondary" id="igOpenFinal">🔗 Open Full Size</button>
+
+            <div class="ig-preview-grid">
+              ${mediaItems.map((item, idx) => `
+                <div class="ig-media-card">
+                  <div class="ig-card-header">
+                    <span>${item.type === 'video' ? '🎥 Video' : '🖼️ Photo'} ${idx + 1} of ${count}</span>
+                  </div>
+                  <div class="ig-media-thumb">
+                    ${item.type === 'video' ? `
+                      <video src="${item.proxyUrl}" controls style="max-height:180px;width:100%;object-fit:contain;border-radius:8px;display:block"></video>
+                    ` : `
+                      <img src="${item.proxyUrl}" alt="Photo ${idx + 1}" style="max-height:180px;width:100%;object-fit:cover;border-radius:8px;display:block" onerror="this.onerror=null;this.src='${item.originalUrl}'" />
+                    `}
+                  </div>
+                  <div class="ig-card-actions">
+                    <button class="btn btn-primary ig-dl-item-btn" data-url="${item.proxyUrl}&download=1" data-filename="instagram-${shortcode}-${idx + 1}.${item.type === 'video' ? 'mp4' : 'jpg'}" style="flex:1;font-size:0.8rem;padding:0.4rem 0.6rem">
+                      📥 Download
+                    </button>
+                    <a href="${item.proxyUrl}" target="_blank" class="btn btn-secondary" style="font-size:0.8rem;padding:0.4rem 0.6rem;text-decoration:none;display:inline-flex;align-items:center;justify-content:center">
+                      🔗 Full
+                    </a>
+                  </div>
                 </div>
-              </div>
+              `).join('')}
             </div>
           `;
 
-          document.getElementById('igDownloadFinal')?.addEventListener('click', () => {
-            const downloadUrl = apiUrl + '&download=1';
-            downloadURL(downloadUrl, `instagram-${shortcode}.jpg`);
+          // Event listeners for individual download buttons
+          result.querySelectorAll('.ig-dl-item-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              const downloadUrl = e.currentTarget.getAttribute('data-url');
+              const filename = e.currentTarget.getAttribute('data-filename');
+              downloadURL(downloadUrl, filename);
+              showToast('Download started!');
+            });
           });
-          document.getElementById('igOpenFinal')?.addEventListener('click', () => {
-            window.open(apiUrl, '_blank');
+
+          // Event listener for Download All Photos
+          document.getElementById('igDownloadAllBtn')?.addEventListener('click', async () => {
+            showToast(`Downloading all ${count} photos...`);
+            for (let i = 0; i < mediaItems.length; i++) {
+              const item = mediaItems[i];
+              const downloadUrl = `${item.proxyUrl}&download=1`;
+              const filename = `instagram-${shortcode}-${i + 1}.${item.type === 'video' ? 'mp4' : 'jpg'}`;
+              downloadURL(downloadUrl, filename);
+              await new Promise(r => setTimeout(r, 400));
+            }
           });
         }
-        showToast('Image fetched successfully!');
+        showToast(`Fetched ${mediaItems.length} ${mediaItems.length === 1 ? 'item' : 'photos'} successfully!`);
       } catch (e) {
-        if (loading) loading.style.display = 'none';
-        if (result) {
-          result.innerHTML = `
-            <div style="padding:1.5rem;text-align:center;color:var(--text-muted)">
-              <p style="font-size:2rem;margin-bottom:.5rem">😔</p>
-              <p style="font-size:.9rem;font-weight:500">${e.message}</p>
-              <p style="font-size:.8rem;margin-top:.5rem">Make sure the post is public and the URL is correct.</p>
-            </div>
-          `;
+        // Fallback handling: try single image proxy if mode=info fails
+        try {
+          const singleApiUrl = `/api/instagram?shortcode=${encodeURIComponent(shortcode)}`;
+          if (loading) loading.style.display = 'none';
+          if (result) {
+            result.innerHTML = `
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1rem">
+                <span style="font-size:.95rem;font-weight:700;color:var(--text-primary)">
+                  ✅ Photo fetched successfully
+                </span>
+              </div>
+              <div class="ig-preview-grid" style="max-width:320px;margin:0 auto">
+                <div class="ig-media-card">
+                  <div class="ig-card-header">
+                    <span>🖼️ Photo 1 of 1</span>
+                  </div>
+                  <div class="ig-media-thumb">
+                    <img src="${singleApiUrl}" alt="Photo 1" style="max-height:180px;width:100%;object-fit:cover;border-radius:8px;display:block" />
+                  </div>
+                  <div class="ig-card-actions">
+                    <button class="btn btn-primary id-single-dl" style="flex:1;font-size:0.8rem;padding:0.4rem 0.6rem">
+                      📥 Download
+                    </button>
+                    <a href="${singleApiUrl}" target="_blank" class="btn btn-secondary" style="font-size:0.8rem;padding:0.4rem 0.6rem;text-decoration:none;display:inline-flex;align-items:center;justify-content:center">
+                      🔗 Full
+                    </a>
+                  </div>
+                </div>
+              </div>
+            `;
+            result.querySelector('.id-single-dl')?.addEventListener('click', () => {
+              downloadURL(`${singleApiUrl}&download=1`, `instagram-${shortcode}.jpg`);
+              showToast('Download started!');
+            });
+          }
+          showToast('Image fetched successfully!');
+        } catch (errFallback) {
+          if (loading) loading.style.display = 'none';
+          if (result) {
+            result.innerHTML = `
+              <div style="padding:1.5rem;text-align:center;color:var(--text-muted)">
+                <p style="font-size:2rem;margin-bottom:.5rem">😔</p>
+                <p style="font-size:.9rem;font-weight:500">${e.message}</p>
+                <p style="font-size:.8rem;margin-top:.5rem">Make sure the post is public and the URL is correct.</p>
+              </div>
+            `;
+          }
+          showToast('Error: ' + e.message, 'error');
         }
-        showToast('Error: ' + e.message, 'error');
       } finally {
         if (fetchBtn) { fetchBtn.disabled = false; fetchBtn.innerHTML = '📥 Fetch Post'; }
       }

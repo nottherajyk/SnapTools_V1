@@ -7,6 +7,21 @@ import { tools } from './tools-data.js';
 
 const app = document.getElementById('app');
 
+/* ── Theme Management ── */
+function getInitialTheme() {
+  const saved = localStorage.getItem('snaptools-theme');
+  if (saved) return saved;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('snaptools-theme', theme);
+}
+
+// Apply theme immediately before render
+applyTheme(getInitialTheme());
+
 function render() {
   const page = router();
   app.innerHTML = renderNavbar() + page + renderFooter() + renderToastContainer();
@@ -102,6 +117,17 @@ function bindNavbar() {
   document.querySelectorAll('[data-nav]').forEach(el => {
     el.addEventListener('click', (e) => { e.preventDefault(); navigateTo(el.getAttribute('data-nav')); });
   });
+
+  // ── Theme Toggle ──
+  const themeBtn = document.getElementById('themeToggleBtn');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      showToast(`Switched to ${next === 'dark' ? 'Dark 🌙' : 'Light ☀️'} Mode`, 'info');
+    });
+  }
 
   // ── Search ──
   const searchBtn = document.getElementById('navSearchBtn');
