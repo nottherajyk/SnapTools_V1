@@ -113,57 +113,38 @@ export function downloadURL(url, filename) {
   });
 }
 
-export function readFileAsDataURL(file) {
+function readFile(file, method) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
-    reader.readAsDataURL(file);
+    reader[method](file);
   });
 }
 
-export function readFileAsArrayBuffer(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsArrayBuffer(file);
-  });
-}
-
-export function readFileAsText(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsText(file);
-  });
-}
+export const readFileAsDataURL    = f => readFile(f, 'readAsDataURL');
+export const readFileAsArrayBuffer = f => readFile(f, 'readAsArrayBuffer');
+export const readFileAsText        = f => readFile(f, 'readAsText');
 
 export function copyToClipboard(text) {
   navigator.clipboard.writeText(text);
 }
 
-export function renderDropZone(id, accept, label = 'Drop your file here or click to browse') {
+export function renderDropZone(id, accept, label = 'Drop your file here or click to browse', multiple = false) {
+  const hint = multiple ? `Supports ${accept.toUpperCase()} files &#8212; Multiple files allowed` : `Supports ${accept.toUpperCase()} files`;
+  const btnLabel = multiple ? 'Choose Files 📂' : 'Choose File 📂';
   return `
     <div class="dropzone" id="${id}" tabindex="0" role="button" aria-label="${label}">
       <div class="dropzone-icon">&#128194;</div>
       <h3 class="dropzone-text">${label}</h3>
-      <p class="dropzone-hint">Supports ${accept.toUpperCase()} files</p>
-      <button class="btn btn-primary dropzone-btn" type="button" style="margin-top: 1.25rem; pointer-events: none; padding: 0.65rem 1.5rem; font-size: 0.95rem;">Choose File 📂</button>
-      <input type="file" accept="${accept}" id="${id}Input" style="display: none;" />
+      <p class="dropzone-hint">${hint}</p>
+      <button class="btn btn-primary dropzone-btn" type="button" style="margin-top: 1.25rem; pointer-events: none; padding: 0.65rem 1.5rem; font-size: 0.95rem;">${btnLabel}</button>
+      <input type="file" accept="${accept}" id="${id}Input" ${multiple ? 'multiple ' : ''}style="display: none;" />
     </div>`;
 }
 
 export function renderMultiDropZone(id, accept, label = 'Drop your files here or click to browse') {
-  return `
-    <div class="dropzone" id="${id}" tabindex="0" role="button" aria-label="${label}">
-      <div class="dropzone-icon">&#128194;</div>
-      <h3 class="dropzone-text">${label}</h3>
-      <p class="dropzone-hint">Supports ${accept.toUpperCase()} files &#8212; Multiple files allowed</p>
-      <button class="btn btn-primary dropzone-btn" type="button" style="margin-top: 1.25rem; pointer-events: none; padding: 0.65rem 1.5rem; font-size: 0.95rem;">Choose Files 📂</button>
-      <input type="file" accept="${accept}" id="${id}Input" multiple style="display: none;" />
-    </div>`;
+  return renderDropZone(id, accept, label, true);
 }
 
 export function setupDropZone(zoneId, inputId, onFile) {

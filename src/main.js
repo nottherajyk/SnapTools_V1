@@ -30,12 +30,8 @@ function render() {
 }
 
 /* ── Search helpers ── */
-const catMeta = {
-  image: { label: 'Image', color: '#d6c0a2' },
-  pdf:   { label: 'PDF',   color: '#c4ae8d' },
-  social:{ label: 'Social', color: '#b09c7a' },
-  text:  { label: 'Text',  color: '#8c7d62' },
-};
+const catMeta = { image:'#d6c0a2', pdf:'#c4ae8d', social:'#b09c7a', text:'#8c7d62' };
+const catLabel = { image:'Image', pdf:'PDF', social:'Social', text:'Text' };
 
 function highlightMatch(text, query) {
   if (!query) return text;
@@ -69,13 +65,14 @@ function renderSearchResults(query) {
       <div class="search-placeholder search-empty">
         <span class="empty-icon">🔍</span>
         <p>No tools found for "<strong>${q}</strong>"</p>
-        <span class="empty-hint">Try "pdf", "image", or "tweet"</span>
+        <span class="empty-hint">Try "pdf", "image", or "compress"</span>
       </div>`;
     return;
   }
 
   results.innerHTML = matched.map((t, i) => {
-    const cat = catMeta[t.category] || { label: t.category, color: '#888' };
+    const catClr = catMeta[t.category] || '#888';
+    const catLbl = catLabel[t.category] || t.category;
     return `
       <a class="search-result ${i === 0 ? 'active' : ''}" href="#/tool/${t.id}" data-idx="${i}">
         <span class="sr-icon">${t.icon}</span>
@@ -83,7 +80,7 @@ function renderSearchResults(query) {
           <span class="sr-name">${highlightMatch(t.name, q)}</span>
           <span class="sr-desc">${highlightMatch(t.desc, q)}</span>
         </div>
-        <span class="sr-cat" style="--cat-clr:${cat.color}">${cat.label}</span>
+        <span class="sr-cat" style="--cat-clr:${catClr}">${catLbl}</span>
       </a>`;
   }).join('');
 }
@@ -290,9 +287,7 @@ function handleDroppedFiles(files) {
   if (localInput) {
     // Populate the local file input and dispatch change event
     const dt = new DataTransfer();
-    for (let i = 0; i < files.length; i++) {
-      dt.items.add(files[i]);
-    }
+    Array.from(files).forEach(f => dt.items.add(f));
     localInput.files = dt.files;
     localInput.dispatchEvent(new Event('change'));
     showToast('File loaded into active tool!', 'success');
@@ -302,7 +297,7 @@ function handleDroppedFiles(files) {
   // 2. If no local dropzone is active (e.g., user is on homepage/dashboard), perform global redirect based on the first file
   const file = files[0];
   const name = file.name.toLowerCase();
-  if (name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png') || name.endsWith('.webp')) {
+  if (['.jpg', '.jpeg', '.png', '.webp'].some(ext => name.endsWith(ext))) {
     window.pendingDroppedFile = file;
     navigateTo('/tool/compress-image');
   } else if (name.endsWith('.pdf')) {
