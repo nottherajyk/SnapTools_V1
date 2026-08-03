@@ -2616,6 +2616,46 @@ input[type="range"]::-webkit-slider-thumb:hover {
 html[data-theme="dark"] .theme-icon-sun { display: none; }
 html[data-theme="dark"] .theme-icon-moon { display: block; }
 
+/* Top Floating Theme Toggle Pill */
+.top-theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 1001;
+  background: #FFFFFF;
+  color: #000000;
+  border: 3px solid #000000;
+  border-radius: var(--radius-full);
+  box-shadow: 3px 3px 0px #000000;
+  padding: 8px 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.top-theme-toggle:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px #000000;
+  background: var(--accent-2);
+}
+
+html[data-theme="dark"] .top-theme-toggle {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="dark"] .top-theme-toggle:hover {
+  background: var(--accent);
+  color: #FFFFFF;
+}
+
 /* Instagram Downloader Compact Preview Grid */
 .ig-preview-grid {
   display: grid;
