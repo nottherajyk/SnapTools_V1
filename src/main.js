@@ -10,7 +10,7 @@ const app = document.getElementById('app');
 /* ── Theme Management ── */
 function getInitialTheme() {
   const saved = localStorage.getItem('snaptools-theme');
-  if (saved) return saved;
+  if (saved === 'dark') return 'dark'; // only honour explicit dark preference
   return 'light';
 }
 

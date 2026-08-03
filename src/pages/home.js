@@ -1,4 +1,4 @@
-import { tools, categories } from '../tools-data.js';
+import { tools } from '../tools-data.js';
 
 export function renderHome() {
   const route = window.location.hash.slice(1) || '/';
@@ -48,15 +48,6 @@ export function renderHome() {
       </div>
     </div>
   </section>
-
-  <div class="category-tabs sr-fade-up" id="categoryTabs">
-    ${categories.filter(c => c.id !== 'all').map((c, i) => `
-      <button class="cat-tab ${c.id === activeCat ? 'active' : ''} sr-scale-in sr-delay-${i + 1}" data-cat="${c.id}">
-        ${c.icon} ${c.name}
-        <span class="count">${tools.filter(t => t.category === c.id).length}</span>
-      </button>
-    `).join('')}
-  </div>
 
   <section class="tools-section" id="toolsSection">
     ${renderCategorySection('image', ' Image Tools', imageTools, activeCat === 'image')}
