@@ -99,47 +99,68 @@ html[data-theme="dark"] {
   --shadow-lg: 10px 10px 0px #000000;
 }
 
+html[data-theme="dark"],
 html[data-theme="dark"] body {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px) !important;
 }
 
 html[data-theme="dark"] .navbar {
-  border-right-color: var(--border);
+  background-color: var(--bg-secondary) !important;
+  border-right-color: var(--border) !important;
+  border-bottom-color: var(--border) !important;
 }
 
 html[data-theme="dark"] .hamburger,
 html[data-theme="dark"] .nav-link,
 html[data-theme="dark"] .nav-search-btn,
-html[data-theme="dark"] .theme-toggle-btn {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  border-color: var(--border);
+html[data-theme="dark"] .theme-toggle-btn,
+html[data-theme="dark"] .tool-page-back,
+html[data-theme="dark"] .breadcrumb {
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+}
+
+html[data-theme="dark"] .breadcrumb a,
+html[data-theme="dark"] .breadcrumb span {
+  color: var(--text-secondary) !important;
 }
 
 html[data-theme="dark"] .logo-text,
-html[data-theme="dark"] .logo-text span {
-  color: var(--text-primary);
+html[data-theme="dark"] .logo-text span,
+html[data-theme="dark"] .tool-page-header h1,
+html[data-theme="dark"] .tool-page-header p,
+html[data-theme="dark"] .form-group label,
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] p {
+  color: var(--text-primary) !important;
 }
 
 html[data-theme="dark"] .tool-card,
+html[data-theme="dark"] .tool-page-container,
 html[data-theme="dark"] .search-modal,
-html[data-theme="dark"] .thumbnail-card {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  border-color: var(--border);
+html[data-theme="dark"] .thumbnail-card,
+html[data-theme="dark"] .dropzone {
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
 }
 
 html[data-theme="dark"] .form-input,
 html[data-theme="dark"] .form-textarea,
 html[data-theme="dark"] .form-select {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border-color: var(--border);
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
 }
 
 html[data-theme="dark"] .form-input::placeholder,
 html[data-theme="dark"] .form-textarea::placeholder {
-  color: var(--text-muted);
+  color: var(--text-muted) !important;
 }
 
 /* ----- Reset & Base ----- */
@@ -2615,46 +2636,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 html[data-theme="dark"] .theme-icon-sun { display: none; }
 html[data-theme="dark"] .theme-icon-moon { display: block; }
-
-/* Top Floating Theme Toggle Pill */
-.top-theme-toggle {
-  position: fixed;
-  top: 16px;
-  right: 20px;
-  z-index: 1001;
-  background: #FFFFFF;
-  color: #000000;
-  border: 3px solid #000000;
-  border-radius: var(--radius-full);
-  box-shadow: 3px 3px 0px #000000;
-  padding: 8px 16px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-}
-
-.top-theme-toggle:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px #000000;
-  background: var(--accent-2);
-}
-
-html[data-theme="dark"] .top-theme-toggle {
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  border-color: var(--border);
-  box-shadow: var(--shadow-sm);
-}
-
-html[data-theme="dark"] .top-theme-toggle:hover {
-  background: var(--accent);
-  color: #FFFFFF;
-}
 
 /* Instagram Downloader Compact Preview Grid */
 .ig-preview-grid {
