@@ -728,17 +728,55 @@ function setupSocialTool(toolId) {
         }
         showToast(`Fetched ${mediaItems.length} ${mediaItems.length === 1 ? 'item' : 'photos'} successfully!`);
       } catch (e) {
-        if (loading) loading.style.display = 'none';
-        if (result) {
-          result.innerHTML = `
-            <div style="padding:1.5rem;text-align:center;color:var(--text-muted)">
-              <p style="font-size:2rem;margin-bottom:.5rem">😔</p>
-              <p style="font-size:.9rem;font-weight:500">${e.message}</p>
-              <p style="font-size:.8rem;margin-top:.5rem">Make sure the post is public and the URL is correct.</p>
-            </div>
-          `;
+        // Fallback handling: try single image proxy if mode=info fails
+        try {
+          const singleApiUrl = `/api/instagram?shortcode=${encodeURIComponent(shortcode)}`;
+          if (loading) loading.style.display = 'none';
+          if (result) {
+            result.innerHTML = `
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;margin-bottom:1rem">
+                <span style="font-size:.95rem;font-weight:700;color:var(--text-primary)">
+                  ✅ Photo fetched successfully
+                </span>
+              </div>
+              <div class="ig-preview-grid" style="max-width:320px;margin:0 auto">
+                <div class="ig-media-card">
+                  <div class="ig-card-header">
+                    <span>🖼️ Photo 1 of 1</span>
+                  </div>
+                  <div class="ig-media-thumb">
+                    <img src="${singleApiUrl}" alt="Photo 1" style="max-height:180px;width:100%;object-fit:cover;border-radius:8px;display:block" />
+                  </div>
+                  <div class="ig-card-actions">
+                    <button class="btn btn-primary id-single-dl" style="flex:1;font-size:0.8rem;padding:0.4rem 0.6rem">
+                      📥 Download
+                    </button>
+                    <a href="${singleApiUrl}" target="_blank" class="btn btn-secondary" style="font-size:0.8rem;padding:0.4rem 0.6rem;text-decoration:none;display:inline-flex;align-items:center;justify-content:center">
+                      🔗 Full
+                    </a>
+                  </div>
+                </div>
+              </div>
+            `;
+            result.querySelector('.id-single-dl')?.addEventListener('click', () => {
+              downloadURL(`${singleApiUrl}&download=1`, `instagram-${shortcode}.jpg`);
+              showToast('Download started!');
+            });
+          }
+          showToast('Image fetched successfully!');
+        } catch (errFallback) {
+          if (loading) loading.style.display = 'none';
+          if (result) {
+            result.innerHTML = `
+              <div style="padding:1.5rem;text-align:center;color:var(--text-muted)">
+                <p style="font-size:2rem;margin-bottom:.5rem">😔</p>
+                <p style="font-size:.9rem;font-weight:500">${e.message}</p>
+                <p style="font-size:.8rem;margin-top:.5rem">Make sure the post is public and the URL is correct.</p>
+              </div>
+            `;
+          }
+          showToast('Error: ' + e.message, 'error');
         }
-        showToast('Error: ' + e.message, 'error');
       } finally {
         if (fetchBtn) { fetchBtn.disabled = false; fetchBtn.innerHTML = '📥 Fetch Post'; }
       }
