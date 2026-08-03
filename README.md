@@ -1,4 +1,4 @@
-# SnapTools — All-in-One Online Tools 🛠️
+# wherearemytools – All-in-One Online Tools
 
 A modern, privacy-first web application that provides a wide range of utility tools under one roof. Designed for speed, privacy, and ease of use.
 

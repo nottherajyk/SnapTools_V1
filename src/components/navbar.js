@@ -13,7 +13,7 @@ export function renderNavbar() {
     <div class="header-container">
       <a class="logo" href="#">
         <div class="logo-icon">★</div>
-        <div class="logo-text">Snap<span>tools</span></div>
+        <div class="logo-text">wherearemytools</div>
       </a>
 
       <nav class="nav-links" id="headerNavLinks">

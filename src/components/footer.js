@@ -1,7 +1,7 @@
 export function renderFooter() {
   return `
   <footer class="footer">
-    <p>© ${new Date().getFullYear()} <strong>Snaptools</strong> — All-in-One Online Tools. Free & Open Source.</p>
+    <p>© ${new Date().getFullYear()} <strong>wherearemytools</strong> — All-in-One Online Tools. Free & Open Source.</p>
     <p style="margin-top:.75rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; flex-wrap: wrap;">
       Built by 
       <a href="https://github.com/nottherajyk" target="_blank" rel="noopener noreferrer" class="footer-author-link">

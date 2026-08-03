@@ -10,17 +10,17 @@ const app = document.getElementById('app');
 /* ── Theme Management ── */
 // ALWAYS start light unless user has explicitly toggled dark in this session
 function getInitialTheme() {
-  const saved = localStorage.getItem('snaptools-theme');
+  const saved = localStorage.getItem('wherearemytools-theme');
   // Only honour 'dark' if the user explicitly set it via the toggle button
   if (saved === 'dark') return 'dark';
   // Clear any stale 'light' entry so we start clean
-  localStorage.removeItem('snaptools-theme');
+  localStorage.removeItem('wherearemytools-theme');
   return 'light';
 }
 
 function applyTheme(theme, persist = false) {
   document.documentElement.setAttribute('data-theme', theme);
-  if (persist) localStorage.setItem('snaptools-theme', theme);
+  if (persist) localStorage.setItem('wherearemytools-theme', theme);
 }
 
 // Apply default theme (light) — does NOT write to localStorage
