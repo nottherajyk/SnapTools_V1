@@ -11,7 +11,7 @@ const app = document.getElementById('app');
 function getInitialTheme() {
   const saved = localStorage.getItem('snaptools-theme');
   if (saved) return saved;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'light';
 }
 
 function applyTheme(theme) {

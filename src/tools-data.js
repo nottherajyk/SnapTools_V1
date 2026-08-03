@@ -29,10 +29,7 @@ export const tools = [
 
   // ===== SOCIAL MEDIA TOOLS =====
   { id:'thumbnail-grabber', name:'Thumbnail Grabber', desc:'Easily download thumbnail images from a YouTube video.', category:'social', icon:'📷' },
-  { id:'tweet-generator', name:'Tweet Generator', desc:'Easily generate believable fake tweets and download them as images.', category:'social', icon:'🐦' },
   { id:'youtube-tags', name:'YouTube Tags Extractor', desc:'Extract tags from a YouTube video.', category:'social', icon:'🏷️' },
-  { id:'instagram-post', name:'Instagram Post Generator', desc:'Generate Instagram-style posts and download as images.', category:'social', icon:'📸' },
-  { id:'x-image-slicer', name:'X Image Slicer', desc:'Slice your image into multiple parts tailored for X.com posts.', category:'social', icon:'✂️' },
   { id:'instagram-downloader', name:'Instagram Post Downloader', desc:'Easily download any post images from Instagram.', category:'social', icon:'📥' },
   { id:'youtube-downloader', name:'YouTube Video Downloader', desc:'Download YouTube videos in different qualities (MP4) or audio formats.', category:'social', icon:'🎥', badge:'NEW' },
   { id:'pinterest-downloader', name:'Pinterest Image Downloader', desc:'Download Pinterest images in full native resolution directly.', category:'social', icon:'📌', badge:'NEW' },
@@ -55,7 +52,6 @@ export const tools = [
   { id:'text-to-image', name:'Convert Text to Image', desc:'Convert a text to an image online.', category:'text', icon:'🖼️' },
   { id:'bionic-reading', name:'Bionic Reading Converter', desc:'Convert text to bionic reading to read faster.', category:'text', icon:'📖' },
   { id:'random-object', name:'Random Object Generator', desc:'Generate a list of random objects.', category:'text', icon:'🎰' },
-  { id:'credit-card-gen', name:'Credit Card Generator', desc:'Get a fake credit card number for testing purposes only.', category:'text', icon:'💳' },
 ];
 
 export const categories = [

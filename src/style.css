@@ -849,8 +849,9 @@ mark {
 
 .hero-stat {
   flex: 1;
-  background: #FFFFFF;
-  border: 4px solid #000000;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 4px solid var(--border);
   border-radius: var(--radius-md);
   padding: 1.25rem;
   display: flex;
@@ -869,15 +870,23 @@ mark {
 .stat-icon {
   width: 50px;
   height: 50px;
-  background: var(--bg-primary);
+  background: #FFB000;
   border: 3px solid #000000;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000000;
+  color: #000000 !important;
   flex-shrink: 0;
-  box-shadow: 2px 2px 0px #000000;
+  box-shadow: 2.5px 2.5px 0px #000000;
+}
+
+.hero-stat:nth-child(1) .stat-icon { background: #FFB000; color: #000000 !important; }
+.hero-stat:nth-child(2) .stat-icon { background: #00D2FF; color: #000000 !important; }
+.hero-stat:nth-child(3) .stat-icon { background: #16C641; color: #000000 !important; }
+
+.stat-icon svg {
+  stroke: #000000 !important;
 }
 
 .stat-content {
@@ -890,14 +899,28 @@ mark {
   font-size: 1.75rem;
   font-weight: 900;
   line-height: 1.1;
-  color: #000000;
+  color: var(--text-primary);
 }
 
 .stat-content .label {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #333333;
+  color: var(--text-secondary);
   margin-top: 0.2rem;
+}
+
+html[data-theme="dark"] .hero-stat {
+  background: var(--bg-surface) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+html[data-theme="dark"] .stat-content .num {
+  color: #F5F5FA !important;
+}
+
+html[data-theme="dark"] .stat-content .label {
+  color: #9DA0B8 !important;
 }
 
 /* ----- Category Selector (Side-By-Side Horizontal Pill Tabs) ----- */
