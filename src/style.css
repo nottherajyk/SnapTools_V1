@@ -900,89 +900,100 @@ mark {
   margin-top: 0.2rem;
 }
 
-/* ----- Category Selector (Replicating Green List Panel) ----- */
+/* ----- Category Selector (Side-By-Side Horizontal Pill Tabs) ----- */
 .category-tabs {
   width: 100%;
-  max-width: 550px;
+  max-width: 1200px;
   margin: 0 auto 3rem auto;
-  background: var(--accent-3) !important; /* Starface Green */
-  border: 4px solid #000000;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   padding: 0 !important;
 }
 
 .cat-tab {
-  width: 100%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 1.75rem !important;
-  background: transparent;
-  border: none !important;
-  border-bottom: 3px solid #000000 !important;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px !important;
+  background: #FFFFFF;
+  border: 3.5px solid #000000 !important;
+  border-radius: var(--radius-full) !important;
+  box-shadow: 4px 4px 0px #000000 !important;
   font-family: 'Fredoka', sans-serif;
-  font-size: 1.35rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #000000 !important;
-  text-align: left;
   cursor: pointer;
   transition: all 0.15s ease;
-  box-sizing: border-box;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-.cat-tab:last-child {
-  border-bottom: none !important;
 }
 
 .cat-tab span.count {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  background: #FFFFFF;
+  background: #000000;
+  color: #FFFFFF;
   border: 2px solid #000000;
-  padding: 4px 10px;
-  border-radius: 8px;
-  box-shadow: 2px 2px 0px #000000;
+  padding: 2px 8px;
+  border-radius: 999px;
 }
 
 .cat-tab:hover {
-  background: var(--accent) !important; /* Starface Pink */
+  background: var(--accent) !important;
   color: #FFFFFF !important;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #000000 !important;
 }
 
 .cat-tab.active {
-  background: var(--bg-primary) !important; /* Neon Yellow */
+  background: var(--accent-3) !important; /* Starface Green */
   color: #000000 !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px #000000 !important;
 }
 
 .cat-tab.active span.count {
   background: #000000;
   color: #FFFFFF;
-  border-color: #000000;
 }
 
-
-/* ==========================================================================
-   Snaptools - Starface Neo-Brutalist Visual Redesign - Part 4 (Forms & Tools)
-   ========================================================================== */
-
-/* ----- Tools Grid & Neo-Brutalist Tool Cards ----- */
+/* ----- Tools Grid & Neo-Brutalist Tool Cards (Side-By-Side Multi-Column Grid) ----- */
 .tools-section {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 2rem var(--section-padding) 2rem;
+  width: 100% !important;
+  max-width: 1320px !important;
+  margin: 0 auto !important;
+  padding: 0 1.5rem var(--section-padding) 1.5rem !important;
+}
+
+.tools-category {
+  width: 100% !important;
 }
 
 .tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 1.5rem !important;
+  width: 100% !important;
+}
+
+@media (max-width: 1100px) {
+  .tools-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .tools-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 .tool-card {
