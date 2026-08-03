@@ -1045,7 +1045,16 @@ html[data-theme="dark"] .hero-stats       { background: var(--bg-surface); borde
   width: 100% !important;
   max-width: 1320px !important;
   margin: 0 auto !important;
-  padding: 0 1.5rem var(--section-padding) 1.5rem !important;
+  padding: 2rem 1.5rem var(--section-padding) 1.5rem !important;
+}
+
+/* CTA buttons on home hero */
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .tools-category {

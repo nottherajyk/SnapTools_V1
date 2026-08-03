@@ -2,17 +2,22 @@ import { tools } from '../tools-data.js';
 
 export function renderHome() {
   const route = window.location.hash.slice(1) || '/';
-  let activeCat = 'image';
-  if (route === '/pdf') activeCat = 'pdf';
-  else if (route === '/social') activeCat = 'social';
-  else if (route === '/text') activeCat = 'text';
-  else if (route === '/image') activeCat = 'image';
+  const catRoutes = ['/image', '/pdf', '/social', '/text'];
+  const isCatPage = catRoutes.includes(route);
 
-  const imageTools = tools.filter(t => t.category === 'image');
-  const pdfTools = tools.filter(t => t.category === 'pdf');
-  const socialTools = tools.filter(t => t.category === 'social');
-  const textTools = tools.filter(t => t.category === 'text');
+  // ── Category page: just tools, no hero ──
+  if (isCatPage) {
+    const catMap = { '/image': 'image', '/pdf': 'pdf', '/social': 'social', '/text': 'text' };
+    const catId  = catMap[route];
+    const catTools = tools.filter(t => t.category === catId);
+    const catTitles = { image: 'Image Tools', pdf: 'PDF Tools', social: 'Social Media', text: 'Text & Lists' };
+    return `
+    <section class="tools-section" id="toolsSection">
+      ${renderCategorySection(catId, catTitles[catId], catTools)}
+    </section>`;
+  }
 
+  // ── Home page: hero intro only ──
   return `
   <section class="hero">
     <div class="hero-badge sr-fade-down">
@@ -67,20 +72,18 @@ export function renderHome() {
         <div class="label">Categories</div>
       </div>
     </div>
-  </section>
 
-  <section class="tools-section" id="toolsSection">
-    ${renderCategorySection('image', ' Image Tools', imageTools, activeCat === 'image')}
-    ${renderCategorySection('pdf', ' PDF Tools', pdfTools, activeCat === 'pdf')}
-    ${renderCategorySection('social', ' Social Media Tools', socialTools, activeCat === 'social')}
-    ${renderCategorySection('text', ' Text & Lists Tools', textTools, activeCat === 'text')}
+    <div class="hero-cta sr-fade-up">
+      <a class="btn btn-primary" href="#/image" data-nav="/image">Browse Image Tools</a>
+      <a class="btn btn-secondary" href="#/pdf" data-nav="/pdf">Browse PDF Tools</a>
+    </div>
   </section>
   `;
 }
 
-function renderCategorySection(catId, title, toolsList, isActive) {
+function renderCategorySection(catId, title, toolsList) {
   return `
-    <div class="tools-category" data-category="${catId}" id="cat-${catId}" style="display: ${isActive ? 'block' : 'none'}">
+    <div class="tools-category" data-category="${catId}" id="cat-${catId}">
       <div class="tools-category-header sr-slide-left">
         <div class="cat-icon ${catId}">${
           catId === 'image'  ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' :

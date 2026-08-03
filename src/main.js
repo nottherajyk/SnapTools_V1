@@ -8,19 +8,24 @@ import { tools } from './tools-data.js';
 const app = document.getElementById('app');
 
 /* ── Theme Management ── */
+// ALWAYS start light unless user has explicitly toggled dark in this session
 function getInitialTheme() {
   const saved = localStorage.getItem('snaptools-theme');
-  if (saved === 'dark') return 'dark'; // only honour explicit dark preference
+  // Only honour 'dark' if the user explicitly set it via the toggle button
+  if (saved === 'dark') return 'dark';
+  // Clear any stale 'light' entry so we start clean
+  localStorage.removeItem('snaptools-theme');
   return 'light';
 }
 
-function applyTheme(theme) {
+function applyTheme(theme, persist = false) {
   document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('snaptools-theme', theme);
+  if (persist) localStorage.setItem('snaptools-theme', theme);
 }
 
-// Apply theme immediately before render
+// Apply default theme (light) — does NOT write to localStorage
 applyTheme(getInitialTheme());
+
 
 function render() {
   const page = router();
@@ -121,7 +126,8 @@ function bindNavbar() {
       e.preventDefault();
       const current = document.documentElement.getAttribute('data-theme') || 'light';
       const next = current === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
+      // Persist ONLY when the user explicitly clicks the toggle
+      applyTheme(next, true);
       showToast(`Switched to ${next === 'dark' ? 'Dark 🌙' : 'Light ☀️'} Mode`, 'info');
     });
   });
