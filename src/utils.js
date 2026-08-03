@@ -131,14 +131,16 @@ export function copyToClipboard(text) {
 }
 
 export function renderDropZone(id, accept, label = 'Drop your file here or click to browse', multiple = false) {
-  const hint = multiple ? `Supports ${accept.toUpperCase()} files &#8212; Multiple files allowed` : `Supports ${accept.toUpperCase()} files`;
-  const btnLabel = multiple ? 'Choose Files 📂' : 'Choose File 📂';
+  const hint = multiple ? `Supports ${accept.toUpperCase()} files — Multiple files allowed` : `Supports ${accept.toUpperCase()} files`;
+  const btnLabel = multiple ? 'Choose Files' : 'Choose File';
+  const icon = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>';
+  const uploadIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>';
   return `
     <div class="dropzone" id="${id}" tabindex="0" role="button" aria-label="${label}">
-      <div class="dropzone-icon">&#128194;</div>
+      <div class="dropzone-icon">${icon}</div>
       <h3 class="dropzone-text">${label}</h3>
       <p class="dropzone-hint">${hint}</p>
-      <button class="btn btn-primary dropzone-btn" type="button" style="margin-top: 1.25rem; pointer-events: none; padding: 0.65rem 1.5rem; font-size: 0.95rem;">${btnLabel}</button>
+      <button class="btn btn-primary dropzone-btn" type="button" style="margin-top: 1.25rem; pointer-events: none; padding: 0.65rem 1.5rem; font-size: 0.95rem;">${uploadIcon} ${btnLabel}</button>
       <input type="file" accept="${accept}" id="${id}Input" ${multiple ? 'multiple ' : ''}style="display: none;" />
     </div>`;
 }
