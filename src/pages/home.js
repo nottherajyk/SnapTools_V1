@@ -15,36 +15,56 @@ export function renderHome() {
 
   return `
   <section class="hero">
-    <div class="hero-badge sr-fade-down">100% Free — No Signup Required</div>
-    <h1 id="heroTitle" data-text="Every |Tool| you want\nall in One Place"></h1>
+    <div class="hero-badge sr-fade-down">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      100% Free — Zero Ads — No Signup Required
+    </div>
 
-    <div class="hero-stats">
-      <div class="hero-stat sr-scale-in sr-delay-4">
-        <div class="stat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    <h1 id="heroTitle" data-text="Every |Tool| you need\\nright here. right now."></h1>
+
+    <div class="hero-pain sr-fade-up">
+      <div class="pain-card">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </div>
-        <div class="stat-content">
-          <div class="num">${tools.length}+</div>
-          <div class="label">Tools Available</div>
-        </div>
-      </div>
-      <div class="hero-stat sr-scale-in sr-delay-5">
-        <div class="stat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div class="stat-content">
-          <div class="num">4</div>
-          <div class="label">Categories</div>
+        <div class="pain-text">
+          <span class="pain-label">The Problem</span>
+          <p>You search for a simple tool. You get 47 tabs, 12 popups, and a "Subscribe for full access" wall.</p>
         </div>
       </div>
-      <div class="hero-stat sr-scale-in sr-delay-6">
-        <div class="stat-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+      <div class="pain-arrow">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+      <div class="pain-card pain-card--solution">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         </div>
-        <div class="stat-content">
-          <div class="num">0</div>
-          <div class="label">Data Uploaded</div>
+        <div class="pain-text">
+          <span class="pain-label">The Fix</span>
+          <p>Every tool you actually need, in one place. No ads. No paywall. No BS. Just open and get it done.</p>
         </div>
+      </div>
+    </div>
+
+    <div class="hero-stats sr-fade-up">
+      <div class="hero-stat">
+        <div class="num">${tools.length}+</div>
+        <div class="label">Free Tools</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="num">0</div>
+        <div class="label">Ads</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="num">0kb</div>
+        <div class="label">Data Sent to Server</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <div class="num">4</div>
+        <div class="label">Categories</div>
       </div>
     </div>
   </section>
