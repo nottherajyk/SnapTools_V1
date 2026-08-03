@@ -119,15 +119,15 @@ function bindNavbar() {
   });
 
   // ── Theme Toggle ──
-  const themeBtn = document.getElementById('themeToggleBtn');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', () => {
+  document.querySelectorAll('#themeToggleBtn, .theme-toggle-btn, .top-theme-toggle').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
       const current = document.documentElement.getAttribute('data-theme') || 'light';
       const next = current === 'dark' ? 'light' : 'dark';
       applyTheme(next);
       showToast(`Switched to ${next === 'dark' ? 'Dark 🌙' : 'Light ☀️'} Mode`, 'info');
     });
-  }
+  });
 
   // ── Search ──
   const searchBtn = document.getElementById('navSearchBtn');
