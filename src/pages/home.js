@@ -97,7 +97,6 @@ function renderCategorySection(catId, title, toolsList) {
       <div class="tools-grid">
         ${toolsList.map((t, i) => `
           <a class="tool-card ${t.category}-tool sr-blur-in sr-delay-${Math.min(i + 1, 10)}" href="#/tool/${t.id}" data-nav="/tool/${t.id}">
-            ${t.badge ? `<span class="tool-badge">${t.badge}</span>` : ''}
             <div class="tool-card-icon">${t.icon}</div>
             <h3>${t.name}</h3>
             <p>${t.desc}</p>

@@ -65,11 +65,11 @@ export const tools = [
   { id:'black-and-white',  name:'Black & White',         desc:'Easily convert an image to black and white online.',                    category:'image',  icon: ICON_BW            },
 
   // ===== PDF TOOLS =====
-  { id:'pdf-to-word',      name:'PDF to Word',           desc:'Convert PDF documents to editable Microsoft Word DOCX files.',          category:'pdf',    icon: ICON_DOC_CONVERT,  badge:'PREMIUM' },
-  { id:'word-to-pdf',      name:'Word to PDF',           desc:'Convert Microsoft Word DOCX files to PDF documents online.',           category:'pdf',    icon: ICON_DOC_CONVERT,  badge:'PREMIUM' },
-  { id:'compress-pdf',     name:'Compress PDF',          desc:'Reduce the file size of your PDF while keeping maximum quality.',       category:'pdf',    icon: ICON_PDF_COMPRESS, badge:'PREMIUM' },
-  { id:'acrobat-downloader',name:'Acrobat Link Downloader',desc:'Download or convert files from any Adobe Acrobat public shared link.',category:'pdf',    icon: ICON_LINK,         badge:'NEW'     },
-  { id:'pdf-to-images',    name:'PDF to Images',         desc:'Convert PDF pages into high-quality JPG or PNG images client-side.',   category:'pdf',    icon: ICON_IMAGE_CONVERT,badge:'PREMIUM' },
+  { id:'pdf-to-word',      name:'PDF to Word',           desc:'Convert PDF documents to editable Microsoft Word DOCX files.',          category:'pdf',    icon: ICON_DOC_CONVERT  },
+  { id:'word-to-pdf',      name:'Word to PDF',           desc:'Convert Microsoft Word DOCX files to PDF documents online.',           category:'pdf',    icon: ICON_DOC_CONVERT  },
+  { id:'compress-pdf',     name:'Compress PDF',          desc:'Reduce the file size of your PDF while keeping maximum quality.',       category:'pdf',    icon: ICON_PDF_COMPRESS },
+  { id:'acrobat-downloader',name:'Acrobat Link Downloader',desc:'Download or convert files from any Adobe Acrobat public shared link.',category:'pdf',    icon: ICON_LINK         },
+  { id:'pdf-to-images',    name:'PDF to Images',         desc:'Convert PDF pages into high-quality JPG or PNG images client-side.',   category:'pdf',    icon: ICON_IMAGE_CONVERT },
   { id:'protect-pdf',      name:'Protect PDF',           desc:'Easily protect a PDF file with a password.',                           category:'pdf',    icon: ICON_LOCK          },
   { id:'unlock-pdf',       name:'Unlock PDF',            desc:'Easily unlock a PDF protected with a password.',                       category:'pdf',    icon: ICON_UNLOCK        },
   { id:'pdf-metadata',     name:'PDF Metadata',          desc:"Easily preview a PDF's metadata online.",                              category:'pdf',    icon: ICON_META          },
@@ -81,8 +81,8 @@ export const tools = [
   { id:'thumbnail-grabber',     name:'Thumbnail Grabber',          desc:'Easily download thumbnail images from a YouTube video.',        category:'social', icon: ICON_YOUTUBE   },
   { id:'youtube-tags',          name:'YouTube Tags Extractor',     desc:'Extract tags from a YouTube video.',                            category:'social', icon: ICON_TAGS      },
   { id:'instagram-downloader',  name:'Instagram Post Downloader',  desc:'Easily download any post images from Instagram.',              category:'social', icon: ICON_INSTAGRAM },
-  { id:'youtube-downloader',    name:'YouTube Video Downloader',   desc:'Download YouTube videos in different qualities (MP4).',        category:'social', icon: ICON_DOWNLOAD, badge:'NEW' },
-  { id:'pinterest-downloader',  name:'Pinterest Image Downloader', desc:'Download Pinterest images in full native resolution.',         category:'social', icon: ICON_PINTEREST, badge:'NEW' },
+  { id:'youtube-downloader',    name:'YouTube Video Downloader',   desc:'Download YouTube videos in different qualities (MP4).',        category:'social', icon: ICON_DOWNLOAD },
+  { id:'pinterest-downloader',  name:'Pinterest Image Downloader', desc:'Download Pinterest images in full native resolution.',         category:'social', icon: ICON_PINTEREST },
 
   // ===== TEXT & LISTS TOOLS =====
   { id:'character-counter', name:'Character Counter',         desc:'Easily count the number of characters in a text.',        category:'text', icon: ICON_COUNTER   },
