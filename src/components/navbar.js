@@ -9,19 +9,14 @@ export function renderNavbar() {
   const isText = route === '/text' || (route.startsWith('/tool/') && !isImage && !isPdf && !isSocial && route.startsWith('/tool/'));
 
   return `
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <div class="navbar-top">
-        <button class="hamburger" aria-label="Menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-        </button>
-        <a class="logo" href="#">
-          <div class="logo-icon">★</div>
-          <div class="logo-text">Snap<span>tools</span></div>
-        </a>
-      </div>
-      
-      <div class="nav-links">
+  <header class="header-navbar">
+    <div class="header-container">
+      <a class="logo" href="#">
+        <div class="logo-icon">★</div>
+        <div class="logo-text">Snap<span>tools</span></div>
+      </a>
+
+      <nav class="nav-links" id="headerNavLinks">
         <a class="nav-link ${isHome ? 'active' : ''}" data-nav="/">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           <span>Home</span>
@@ -42,30 +37,27 @@ export function renderNavbar() {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
           <span>Text</span>
         </a>
-        <button class="nav-link theme-toggle-btn" id="themeNavLink" aria-label="Toggle Dark Mode" title="Toggle Light/Dark Mode">
+      </nav>
+
+      <div class="header-actions">
+        <button class="nav-search-btn" id="navSearchBtn" aria-label="Search Tools">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span class="search-label">Search</span>
+        </button>
+
+        <button class="header-theme-btn theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Dark Mode" title="Toggle Light/Dark Theme">
           <svg class="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          <span>Dark Mode</span>
+          <span class="theme-text">Dark Mode</span>
         </button>
-      </div>
-      
-      <div class="navbar-bottom">
-        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme" title="Toggle Light/Dark Theme">
-          <svg class="theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <svg class="theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         </button>
-        <button class="nav-search-btn" id="navSearchBtn" aria-label="Search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <span class="search-kbd">Search</span>
-        </button>
-        <div class="sidebar-smiley">
-          <div class="smiley-eyes">★ ★</div>
-          <div class="smiley-mouth">◡</div>
-        </div>
       </div>
     </div>
-  </nav>
-  
+  </header>
+
   <div class="search-overlay" id="searchOverlay">
     <div class="search-modal">
       <div class="search-input-row">
