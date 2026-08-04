@@ -211,6 +211,22 @@ html[data-theme="dark"] .radio-card-desc {
   color: #AAAAAA !important;
 }
 
+html[data-theme="dark"] .file-info {
+  background: #1C1D2A !important;
+  border-color: #000000 !important;
+  box-shadow: 3.5px 3.5px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .file-info-name {
+  color: #F5F5FA !important;
+}
+
+html[data-theme="dark"] .file-info-size {
+  background: #FAFF05 !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
 html[data-theme="dark"] .logo-text,
 html[data-theme="dark"] .logo-text span,
 html[data-theme="dark"] .tool-page-header h1,
@@ -3349,11 +3365,67 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* File Info & Brutalist Close Button */
+/* File Info & Brutalist Card */
 .file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 3.5rem 0.75rem 0.85rem !important;
+  background: #FFFFFF;
+  border: 3px solid #000000;
+  border-radius: 12px;
+  box-shadow: 3.5px 3.5px 0px #000000;
+  margin-bottom: 1.25rem;
   position: relative;
-  padding-right: 3.5rem !important;
-  /* Make room for the close button */
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.file-info-icon {
+  width: 38px;
+  height: 38px;
+  border: 2px solid #000000;
+  border-radius: 9px;
+  background: #FAFF05;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 2px 2px 0px #000000;
+  flex-shrink: 0;
+}
+
+.file-info-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  overflow: hidden;
+  flex: 1;
+}
+
+.file-info-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #000000;
+  line-height: 1.25;
+  word-break: break-all;
+  letter-spacing: -0.2px;
+}
+
+.file-info-size {
+  display: inline-flex;
+  width: fit-content;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.78rem;
+  background: #000000;
+  color: #FFFFFF;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  border: 1.5px solid #000000;
+  letter-spacing: 0.03em;
 }
 
 .file-info-remove {
@@ -3364,10 +3436,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: var(--accent);
-  /* Starface Hot Pink */
+  background: var(--accent, #FF007F);
   color: #FFFFFF;
-  border: 2px solid #000000;
+  border: 2.5px solid #000000;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.35rem;
   font-weight: 900;
@@ -3375,16 +3446,16 @@ input[type="range"]::-webkit-slider-thumb:hover {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 2px 2px 0px #000000;
+  box-shadow: 2.5px 2.5px 0px #000000;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
   z-index: 5;
 }
 
 .file-info-remove:hover {
-  background: #FF3399;
-  /* Brighter Starface Pink */
+  background: #000000;
+  color: #FAFF05;
   transform: translateY(-50%) translate(-1px, -1px);
-  box-shadow: 3px 3px 0px #000000;
+  box-shadow: 3.5px 3.5px 0px #000000;
 }
 
 .file-info-remove:active {
