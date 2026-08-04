@@ -44,8 +44,13 @@ function renderImageConverter(tool) {
     ${renderDropZone('imgConv', fmt.from, `Drop your ${fmt.from.toUpperCase()} file here`)}
     <div id="fileInfoArea"></div>
     <div class="preview-area" id="previewArea" style="display:none">
-      <h3>Preview</h3>
-      <img id="previewImg" alt="Preview" />
+      <div class="preview-header">
+        <h3>Preview</h3>
+        <button class="btn-enlarge-preview" type="button">🔍 View Bigger</button>
+      </div>
+      <div class="preview-thumbnail-wrapper">
+        <img id="previewImg" alt="Preview" />
+      </div>
     </div>
     <div class="form-group" style="margin-top:1rem">
       <label class="form-label">Quality (for JPG output)</label>
@@ -67,8 +72,13 @@ function renderImageToSVG(tool) {
     ${renderDropZone('imgSvg', from, `Drop your image file here`)}
     <div id="fileInfoArea"></div>
     <div class="preview-area" id="previewArea" style="display:none">
-      <h3>Preview</h3>
-      <img id="previewImg" alt="Preview" />
+      <div class="preview-header">
+        <h3>Preview</h3>
+        <button class="btn-enlarge-preview" type="button">🔍 View Bigger</button>
+      </div>
+      <div class="preview-thumbnail-wrapper">
+        <img id="previewImg" alt="Preview" />
+      </div>
     </div>
     <div class="form-group" style="margin-top:1rem">
       <label class="form-label">SVG Method</label>
@@ -186,8 +196,13 @@ function renderImageToBase64() {
     ${renderDropZone('imgB64', '.jpg,.jpeg,.png,.webp,.gif,.svg', 'Drop your image here')}
     <div id="fileInfoArea"></div>
     <div class="preview-area" id="previewArea" style="display:none">
-      <h3>Preview</h3>
-      <img id="previewImg" alt="Preview" />
+      <div class="preview-header">
+        <h3>Preview</h3>
+        <button class="btn-enlarge-preview" type="button">🔍 View Bigger</button>
+      </div>
+      <div class="preview-thumbnail-wrapper">
+        <img id="previewImg" alt="Preview" />
+      </div>
     </div>
     <div class="result-area" id="resultArea" style="display:none">
       <h3 style="font-size:.9rem;font-weight:600;margin-bottom:.75rem;color:var(--text-muted)">BASE64 Output</h3>

@@ -34,6 +34,64 @@ function render() {
   window.dispatchEvent(new Event('page-rendered'));
 }
 
+/* ── Lightbox Modal Helper ── */
+window.openLightbox = function(target) {
+  let src = '';
+  if (typeof target === 'string') {
+    src = target;
+  } else if (target instanceof HTMLCanvasElement) {
+    src = target.toDataURL();
+  } else if (target instanceof HTMLImageElement) {
+    src = target.src;
+  } else if (target && target.querySelector) {
+    const img = target.querySelector('img, canvas');
+    if (img) src = img.tagName === 'CANVAS' ? img.toDataURL() : img.src;
+  }
+  if (!src) return;
+
+  let modal = document.getElementById('globalLightboxModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'globalLightboxModal';
+    modal.className = 'lightbox-modal';
+    modal.innerHTML = `
+      <div class="lightbox-content">
+        <button class="lightbox-close" type="button" aria-label="Close lightbox">&times;</button>
+        <img class="lightbox-img" id="lightboxImg" alt="Enlarged Preview" />
+        <div class="lightbox-caption">🔍 Full Resolution View — Click outside to close</div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.classList.contains('lightbox-close')) {
+        modal.classList.remove('open');
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') modal.classList.remove('open');
+    });
+  }
+
+  const lightboxImg = modal.querySelector('#lightboxImg');
+  if (lightboxImg) lightboxImg.src = src;
+  modal.classList.add('open');
+};
+
+// Global click delegate for image previews
+document.addEventListener('click', (e) => {
+  const trigger = e.target.closest('#previewImg, #origPreviewImg, .preview-area img, .preview-thumbnail-wrapper, .btn-enlarge-preview, .comparison-img-wrapper img');
+  if (trigger) {
+    const img = trigger.tagName === 'IMG' ? trigger : trigger.querySelector('img, canvas');
+    const src = img ? (img.tagName === 'CANVAS' ? img.toDataURL() : img.src) : null;
+    if (src && (src.startsWith('data:') || src.startsWith('blob:') || src.startsWith('http'))) {
+      e.preventDefault();
+      window.openLightbox(src);
+    }
+  }
+});
+
 /* ── Search helpers ── */
 const catMeta = { image:'#d6c0a2', pdf:'#c4ae8d', social:'#b09c7a', text:'#8c7d62' };
 const catLabel = { image:'Image', pdf:'PDF', social:'Social', text:'Text' };
