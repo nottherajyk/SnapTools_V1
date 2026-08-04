@@ -128,16 +128,87 @@ html[data-theme="dark"] .hamburger,
 html[data-theme="dark"] .nav-link,
 html[data-theme="dark"] .nav-search-btn,
 html[data-theme="dark"] .theme-toggle-btn,
-html[data-theme="dark"] .tool-page-back,
-html[data-theme="dark"] .breadcrumb {
+html[data-theme="dark"] .tool-page-back {
   background: var(--bg-surface) !important;
   color: var(--text-primary) !important;
   border-color: var(--border) !important;
 }
 
-html[data-theme="dark"] .breadcrumb a,
-html[data-theme="dark"] .breadcrumb span {
-  color: var(--text-secondary) !important;
+html[data-theme="dark"] .breadcrumb {
+  background: #FAFF05 !important;
+  border-color: #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+html[data-theme="dark"] a.breadcrumb-item {
+  background: #1C1D2A !important;
+  color: #FFFFFF !important;
+  border-color: #000000 !important;
+}
+
+html[data-theme="dark"] a.breadcrumb-item:hover {
+  background: #000000 !important;
+  color: #FAFF05 !important;
+}
+
+html[data-theme="dark"] .breadcrumb-separator {
+  color: #000000 !important;
+}
+
+html[data-theme="dark"] .breadcrumb-current {
+  background: #000000 !important;
+  color: #FAFF05 !important;
+  border-color: #000000 !important;
+}
+
+html[data-theme="dark"] .tools-category-header {
+  background: #1C1D2A !important;
+  border-color: #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .tools-category-header h2 {
+  color: #F5F5FA !important;
+}
+
+html[data-theme="dark"] .cat-count {
+  background: #FAFF05 !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .btn-primary {
+  background: #FAFF05 !important;
+  color: #000000 !important;
+}
+
+html[data-theme="dark"] .radio-card {
+  background: #1C1D2A !important;
+  border-color: #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .radio-card:hover {
+  background: #262738 !important;
+}
+
+html[data-theme="dark"] .radio-card:has(input[type="radio"]:checked) {
+  background: #FAFF05 !important;
+  color: #000000 !important;
+}
+
+html[data-theme="dark"] .radio-card:has(input[type="radio"]:checked) .radio-card-title,
+html[data-theme="dark"] .radio-card:has(input[type="radio"]:checked) .radio-card-desc {
+  color: #000000 !important;
+}
+
+html[data-theme="dark"] .radio-card-title {
+  color: #F5F5FA !important;
+}
+
+html[data-theme="dark"] .radio-card-desc {
+  color: #AAAAAA !important;
 }
 
 html[data-theme="dark"] .logo-text,
@@ -1134,6 +1205,92 @@ html[data-theme="dark"] .hero-stats {
 
 .tools-category {
   width: 100% !important;
+  margin-bottom: 2.5rem;
+}
+
+/* ===== Highlighted Category Section Headers ===== */
+.tools-category-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 1.25rem;
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 3px solid #000000;
+  border-radius: var(--radius-md, 16px);
+  box-shadow: 4px 4px 0px #000000;
+  margin-bottom: 1.75rem;
+  flex-wrap: wrap;
+  transition: all 0.2s ease;
+}
+
+.tools-category-header:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.cat-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FAFF05;
+  border: 2.5px solid #000000;
+  border-radius: 12px;
+  box-shadow: 2px 2px 0px #000000;
+  color: #000000;
+  flex-shrink: 0;
+}
+
+.cat-icon.image {
+  background-color: var(--cat-image, #00D2FF);
+}
+
+.cat-icon.pdf {
+  background-color: var(--cat-pdf, #16C641);
+}
+
+.cat-icon.social {
+  background-color: var(--cat-social, #FF007F);
+  color: #FFFFFF;
+}
+
+.cat-icon.text {
+  background-color: var(--cat-text, #FFB000);
+}
+
+.cat-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.2px;
+}
+
+.tools-category-header h2 {
+  font-family: 'Fredoka', 'Space Grotesk', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  color: #000000;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+}
+
+.cat-count {
+  display: inline-flex;
+  align-items: center;
+  background-color: #FAFF05;
+  color: #000000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.75rem;
+  border: 2px solid #000000;
+  border-radius: 999px;
+  box-shadow: 2px 2px 0px #000000;
+  margin-left: 0.25rem;
 }
 
 .tools-grid {
@@ -1322,24 +1479,24 @@ html[data-theme="dark"] .hero-stats {
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
-  padding: var(--section-padding) 2rem;
+  padding: 1.5rem 1.25rem;
   box-sizing: border-box;
 }
 
 .tool-page-back {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   font-family: 'Fredoka', sans-serif;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #000000;
   background: #FFFFFF;
-  border: 3px solid #000000;
-  padding: 0.6rem 1.2rem;
+  border: 2.5px solid #000000;
+  padding: 0.45rem 0.95rem;
   border-radius: 10px;
   box-shadow: 2px 2px 0px #000000;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   transition: all 0.15s ease;
 }
 
@@ -1350,39 +1507,93 @@ html[data-theme="dark"] .hero-stats {
   color: #FFFFFF;
 }
 
+/* ===== Highlighted Neo-Brutalist Breadcrumb Navigation ===== */
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.65rem;
+  background-color: var(--bg-primary, #FAFF05);
+  border: 2px solid #000000;
+  border-radius: 10px;
+  box-shadow: 2.5px 2.5px 0px #000000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  color: #000000;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+
+a.breadcrumb-item {
+  background: #FFFFFF;
+  border: 1.5px solid #000000;
+}
+
+a.breadcrumb-item:hover {
+  background: #000000;
+  color: #FAFF05;
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.breadcrumb-separator {
+  color: #000000;
+  font-weight: 900;
+  font-size: 0.95rem;
+  user-select: none;
+  padding: 0 0.1rem;
+}
+
+.breadcrumb-current {
+  background: #000000;
+  color: #FFFFFF;
+  border: 1.5px solid #000000;
+}
+
 .tool-page-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.25rem;
   text-align: left;
 }
 
 .tool-page-header h1 {
   font-family: 'Fredoka', sans-serif;
-  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-size: clamp(1.5rem, 3.2vw, 2.25rem);
   font-weight: 900;
   color: #000000;
   line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: -0.5px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .tool-page-header p {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: #333333;
 }
 
 .tool-page-container {
   background: #FFFFFF;
-  border: 4px solid #000000;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  padding: 2.5rem;
+  border: 3.5px solid #000000;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem 1.5rem;
   box-sizing: border-box;
 }
 
 /* ----- Neo-Brutalist Form Inputs & Elements ----- */
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: left;
 }
 
@@ -1390,9 +1601,9 @@ html[data-theme="dark"] .hero-stats {
   display: block;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.88rem;
   color: #000000;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
   text-transform: uppercase;
 }
 
@@ -1404,15 +1615,15 @@ input[type="url"],
 select,
 textarea {
   width: 100%;
-  padding: 1rem 1.25rem;
+  padding: 0.65rem 0.9rem;
   background: #FFFFFF;
-  border: 3px solid #000000;
-  border-radius: 12px;
+  border: 2.5px solid #000000;
+  border-radius: 10px;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: #000000;
-  box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 1.5px 1.5px 0px rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -1421,18 +1632,18 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--accent);
-  box-shadow: 3px 3px 0px #000000;
+  box-shadow: 2.5px 2.5px 0px #000000;
 }
 
 textarea {
-  min-height: 120px;
+  min-height: 85px;
   resize: vertical;
 }
 
 .form-row {
   display: flex;
-  gap: 1.25rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .form-row .form-group {
@@ -1440,33 +1651,128 @@ textarea {
   margin-bottom: 0;
 }
 
+/* ===== Side-by-side Radio Card Options ===== */
+.radio-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+  width: 100%;
+}
+
+@media (max-width: 680px) {
+  .radio-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.75rem 0.85rem;
+  background: #FFFFFF;
+  border: 2.5px solid #000000;
+  border-radius: 12px;
+  box-shadow: 3px 3px 0px #000000;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.radio-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 4.5px 4.5px 0px #000000;
+  background: rgba(250, 255, 5, 0.12);
+}
+
+.radio-card:has(input[type="radio"]:checked) {
+  background: #FAFF05;
+  border-color: #000000;
+  box-shadow: 3.5px 3.5px 0px #000000;
+  transform: translateY(-1px);
+}
+
+.radio-card input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #000000;
+  border-radius: 50%;
+  outline: none;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  background: #FFFFFF;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: all 0.15s ease;
+}
+
+.radio-card input[type="radio"]::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #000000;
+  transform: scale(0);
+  transition: transform 0.15s ease-in-out;
+}
+
+.radio-card input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.radio-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.radio-card-title {
+  font-family: 'Fredoka', 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #000000;
+  line-height: 1.2;
+}
+
+.radio-card-desc {
+  font-size: 0.78rem;
+  color: #444444;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
 /* File Upload Dropzone */
 .dropzone {
   background: #FFFFFF;
-  border: 3px dashed #000000;
+  border: 2.5px dashed #000000;
   border-radius: var(--radius-md);
-  padding: 3.5rem 2rem;
+  padding: 1.5rem 1.25rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.15s ease;
   position: relative;
-  margin-bottom: 1.5rem;
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.08);
 }
 
 .dropzone:hover,
 .dropzone.dragover {
   border-style: solid;
   background: rgba(250, 255, 5, 0.08);
-  /* neon yellow tint */
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #000000;
+  box-shadow: 5px 5px 0px #000000;
 }
 
 .dropzone-icon {
-  font-size: 3rem;
+  font-size: 2.2rem;
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   animation: bounceSlow 3s infinite ease-in-out;
 }
 
@@ -1501,14 +1807,14 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 1.75rem;
+  gap: 0.45rem;
+  padding: 0.65rem 1.35rem;
   font-family: 'Fredoka', sans-serif;
-  font-weight: 900;
-  font-size: 1.1rem;
+  font-weight: 800;
+  font-size: 0.95rem;
   text-transform: uppercase;
-  border: 3px solid #000000 !important;
-  border-radius: 12px !important;
+  border: 2.5px solid #000000 !important;
+  border-radius: 10px !important;
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   transition: all 0.15s ease;
@@ -1522,7 +1828,8 @@ textarea {
 
 .btn-primary {
   background: var(--bg-primary);
-  color: #ffffff;
+  color: #000000;
+  font-weight: 800;
 }
 
 .btn-primary:hover {

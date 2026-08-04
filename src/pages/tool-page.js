@@ -19,11 +19,13 @@ export function renderToolPage(toolId) {
   return `
     <div class="tool-page">
       <div class="tool-page-header">
-        <div class="breadcrumb">
-          <a href="#/">Home</a> <span>›</span>
-          <a href="#/${tool.category}" data-nav="/${tool.category}">${catNames[tool.category] || 'Tools'}</a> <span>›</span>
-          <span>${tool.name}</span>
-        </div>
+        <nav class="breadcrumb" aria-label="Breadcrumb navigation">
+          <a class="breadcrumb-item" href="#/">Home</a>
+          <span class="breadcrumb-separator">›</span>
+          <a class="breadcrumb-item" href="#/${tool.category}" data-nav="/${tool.category}">${catNames[tool.category] || 'Tools'}</a>
+          <span class="breadcrumb-separator">›</span>
+          <span class="breadcrumb-item breadcrumb-current">${tool.name}</span>
+        </nav>
         <h1>${tool.icon} ${tool.name}</h1>
         <p class="tool-desc">${tool.desc}</p>
       </div>

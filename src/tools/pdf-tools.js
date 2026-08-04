@@ -181,28 +181,31 @@ function renderCompressPDF() {
     ${renderDropZone('pdfCompress', '.pdf', 'Drop your PDF to compress')}
     <div id="fileInfoArea"></div>
     
-    <div class="form-group" style="margin-top:1.5rem">
+    <div class="form-group" style="margin-top:1rem">
       <label class="form-label">Compression Level</label>
-      <div class="grid grid-cols-3 gap-3">
-        <label class="relative flex flex-col p-4 rounded-xl border border-slate-700/50 bg-slate-800/40 hover:bg-slate-800/80 cursor-pointer transition text-center select-none">
-          <input type="radio" name="compressLevel" value="high" class="sr-only peer" />
-          <div class="text-sm font-semibold text-slate-200 peer-checked:text-indigo-400">High Compression</div>
-          <div class="text-xs text-slate-400 mt-1">Smaller file, lower resolution</div>
-          <div class="absolute inset-0 border border-transparent peer-checked:border-indigo-500 rounded-xl pointer-events-none"></div>
+      <div class="radio-card-grid">
+        <label class="radio-card">
+          <input type="radio" name="compressLevel" value="high" />
+          <div class="radio-card-content">
+            <span class="radio-card-title">High Compression</span>
+            <span class="radio-card-desc">Smaller file, lower resolution</span>
+          </div>
         </label>
         
-        <label class="relative flex flex-col p-4 rounded-xl border border-slate-700/50 bg-slate-800/40 hover:bg-slate-800/80 cursor-pointer transition text-center select-none">
-          <input type="radio" name="compressLevel" value="recommended" class="sr-only peer" checked />
-          <div class="text-sm font-semibold text-slate-200 peer-checked:text-indigo-400">Recommended</div>
-          <div class="text-xs text-slate-400 mt-1">Good quality & compression</div>
-          <div class="absolute inset-0 border border-transparent peer-checked:border-indigo-500 rounded-xl pointer-events-none"></div>
+        <label class="radio-card">
+          <input type="radio" name="compressLevel" value="recommended" checked />
+          <div class="radio-card-content">
+            <span class="radio-card-title">Recommended</span>
+            <span class="radio-card-desc">Good quality & compression</span>
+          </div>
         </label>
         
-        <label class="relative flex flex-col p-4 rounded-xl border border-slate-700/50 bg-slate-800/40 hover:bg-slate-800/80 cursor-pointer transition text-center select-none">
-          <input type="radio" name="compressLevel" value="low" class="sr-only peer" />
-          <div class="text-sm font-semibold text-slate-200 peer-checked:text-indigo-400">Lossless / Low</div>
-          <div class="text-xs text-slate-400 mt-1">Maximum image quality</div>
-          <div class="absolute inset-0 border border-transparent peer-checked:border-indigo-500 rounded-xl pointer-events-none"></div>
+        <label class="radio-card">
+          <input type="radio" name="compressLevel" value="low" />
+          <div class="radio-card-content">
+            <span class="radio-card-title">Lossless / Low</span>
+            <span class="radio-card-desc">Maximum image quality</span>
+          </div>
         </label>
       </div>
     </div>
