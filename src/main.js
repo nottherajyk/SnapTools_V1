@@ -1,9 +1,13 @@
 // ===== MAIN APP =====
+import { inject } from '@vercel/analytics';
 import { router, navigateTo } from './router.js';
 import { renderNavbar } from './components/navbar.js';
 import { renderFooter } from './components/footer.js';
 import { renderToastContainer, showToast } from './components/toast.js';
 import { tools } from './tools-data.js';
+
+// Initialize Vercel Analytics
+inject();
 
 const app = document.getElementById('app');
 
