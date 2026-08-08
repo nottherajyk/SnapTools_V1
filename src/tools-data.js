@@ -78,6 +78,7 @@ export const tools = [
   { id:'split-pdf',        name:'Split PDF',             desc:'Split a PDF into separate files by page or custom ranges.',            category:'pdf',    icon: ICON_SPLIT         },
 
   // ===== SOCIAL MEDIA TOOLS =====
+  { id:'spotify-downloader',    name:'Spotify Playlist Downloader', desc:'Download high-quality MP3 songs directly from any Spotify playlist, album, or track link.', category:'social', icon: ICON_SPOTIFY },
   { id:'thumbnail-grabber',     name:'Thumbnail Grabber',          desc:'Easily download thumbnail images from a YouTube video.',        category:'social', icon: ICON_YOUTUBE   },
   { id:'youtube-tags',          name:'YouTube Tags Extractor',     desc:'Extract tags from a YouTube video.',                            category:'social', icon: ICON_TAGS      },
   { id:'instagram-downloader',  name:'Instagram Post Downloader',  desc:'Easily download any post images from Instagram.',              category:'social', icon: ICON_INSTAGRAM },

@@ -6,6 +6,7 @@ export function socialToolHandler(tool) {
   window.addEventListener('page-rendered', () => setupSocialTool(tool.id), { once: true });
 
   switch (tool.id) {
+    case 'spotify-downloader': return renderSpotifyDownloader();
     case 'thumbnail-grabber': return renderThumbnailGrabber();
     case 'tweet-generator': return renderTweetGenerator();
     case 'youtube-tags': return renderYouTubeTags();
@@ -218,8 +219,123 @@ function renderPinterestDownloader() {
   `;
 }
 
+function renderSpotifyDownloader() {
+  return `
+    <div class="form-group">
+      <label class="form-label">Spotify Playlist, Album, or Track Link</label>
+      <div style="display:flex;gap:.5rem">
+        <input type="text" class="form-input" id="spotifyUrl" placeholder="https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M" />
+        <button class="btn btn-secondary" id="spotifyPasteBtn" type="button" style="white-space:nowrap" title="Paste from clipboard">📋 Paste</button>
+      </div>
+    </div>
+    <div class="actions-row">
+      <button class="btn btn-primary" id="spotifyFetchBtn">🎵 Fetch Playlist Songs</button>
+      <button class="btn btn-secondary" id="spotifyDemoBtn" type="button">✨ Try Sample Playlist</button>
+    </div>
+    <div class="result-area" id="resultArea">
+      <div id="spotifyLoading" style="display:none;text-align:center;padding:2.5rem 1rem">
+        <div class="spinner-sm" style="width:32px;height:32px;border-width:3px;margin:0 auto 1rem"></div>
+        <p style="color:var(--text-muted);font-size:.95rem">Extracting Spotify metadata & track details...</p>
+      </div>
+      <div id="spotifyResult"></div>
+    </div>
+    <div style="margin-top:1.5rem;padding:1.25rem;background:var(--surface);border-radius:12px;border:1px solid var(--border)">
+      <h4 style="margin:0 0 .5rem;font-size:.9rem;color:var(--text-main);display:flex;align-items:center;gap:.4rem">
+        <span>💡</span> <strong>How to use:</strong>
+      </h4>
+      <ul style="margin:0;padding-left:1.2rem;font-size:.85rem;color:var(--text-muted);line-height:1.6">
+        <li>Paste any public Spotify Playlist, Album, or Track URL and click <strong>Fetch Playlist Songs</strong>.</li>
+        <li>Listen to 30-second audio previews directly in your browser.</li>
+        <li>Click <strong>Download HQ Song</strong> on any track to download high-quality audio files (MP3/M4A) matched automatically.</li>
+        <li>Use <strong>Download All Tracks</strong> to batch download the playlist.</li>
+      </ul>
+    </div>
+  `;
+}
+
 // ===== SETUP LOGIC =====
 function setupSocialTool(toolId) {
+  // Spotify Downloader
+  if (toolId === 'spotify-downloader') {
+    const fetchBtn = document.getElementById('spotifyFetchBtn');
+    const pasteBtn = document.getElementById('spotifyPasteBtn');
+    const demoBtn = document.getElementById('spotifyDemoBtn');
+    const inputEl = document.getElementById('spotifyUrl');
+    const loadingEl = document.getElementById('spotifyLoading');
+    const resultEl = document.getElementById('spotifyResult');
+
+    if (inputEl && !inputEl.dataset.listenerAttached) {
+      inputEl.dataset.listenerAttached = 'true';
+
+      pasteBtn?.addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            inputEl.value = text.trim();
+            showToast('Pasted link from clipboard!', 'info');
+          }
+        } catch (err) {
+          showToast('Clipboard access denied. Please paste manually.', 'warning');
+        }
+      });
+
+      demoBtn?.addEventListener('click', () => {
+        inputEl.value = 'https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M';
+        fetchBtn.click();
+      });
+
+      const handleFetch = async () => {
+        const url = inputEl.value.trim();
+        if (!url) {
+          showToast('Please enter a Spotify URL', 'error');
+          return;
+        }
+
+        if (!url.includes('open.spotify.com/')) {
+          showToast('Invalid Spotify URL. Must start with open.spotify.com/', 'error');
+          return;
+        }
+
+        if (loadingEl) loadingEl.style.display = 'block';
+        if (resultEl) resultEl.innerHTML = '';
+        if (fetchBtn) fetchBtn.disabled = true;
+
+        try {
+          const res = await fetch(`/api/spotify-info?url=${encodeURIComponent(url)}`);
+          const data = await res.json();
+
+          if (!res.ok || data.error) {
+            throw new Error(data.error || 'Failed to fetch Spotify details.');
+          }
+
+          renderSpotifyResult(data, resultEl);
+          showToast(`Loaded "${data.title}" with ${data.totalTracks} track(s)!`, 'success');
+
+        } catch (err) {
+          console.error('Spotify Fetch Error:', err);
+          if (resultEl) {
+            resultEl.innerHTML = `
+              <div style="padding:1.5rem;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:12px;color:var(--text-main);text-align:center">
+                <span style="font-size:2rem;display:block;margin-bottom:.5rem">⚠️</span>
+                <strong style="color:#ef4444">${escapeHtml(err.message)}</strong>
+                <p style="margin:.5rem 0 0;font-size:.85rem;color:var(--text-muted)">Make sure the Spotify playlist or track is public and the link is correct.</p>
+              </div>
+            `;
+          }
+          showToast(err.message, 'error');
+        } finally {
+          if (loadingEl) loadingEl.style.display = 'none';
+          if (fetchBtn) fetchBtn.disabled = false;
+        }
+      };
+
+      fetchBtn?.addEventListener('click', handleFetch);
+      inputEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleFetch();
+      });
+    }
+  }
+
   // Thumbnail Grabber
   if (toolId === 'thumbnail-grabber') {
     const grid = document.getElementById('thumbnailGrid');
@@ -1209,3 +1325,165 @@ function extractImagesFromEmbed(html) {
 
   return Array.from(urls);
 }
+
+function renderSpotifyResult(data, container) {
+  let tracks = data.tracks || [];
+
+  const html = `
+    <div class="spotify-hero-card">
+      <img src="${data.coverArt || 'https://open.spotify.com/favicon.ico'}" alt="${escapeHtml(data.title)}" class="spotify-cover-img" />
+      <div class="spotify-hero-details">
+        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+          <span class="spotify-badge">Spotify ${data.type.toUpperCase()}</span>
+          <span class="spotify-quality-tag">⚡ High-Quality Audio (Up to 320kbps)</span>
+        </div>
+        <h2 class="spotify-title">${escapeHtml(data.title)}</h2>
+        <p class="spotify-subtitle">${escapeHtml(data.subtitle)} • ${data.totalTracks} ${data.totalTracks === 1 ? 'Track' : 'Tracks'}</p>
+        <div class="spotify-actions">
+          <button class="btn btn-success" id="downloadAllTracksBtn">
+            ⚡ Download All Tracks (${data.totalTracks})
+          </button>
+          <div class="spotify-search-box">
+            <input type="text" id="trackFilterInput" class="form-input" placeholder="🔍 Search songs in playlist..." style="padding:.45rem .8rem;font-size:.85rem;min-width:200px" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spotify-tracklist-header">
+      <span style="width:28px;text-align:center">#</span>
+      <span>Song & Artist</span>
+      <span class="track-col-duration" style="text-align:center">Duration</span>
+      <span class="track-col-preview" style="text-align:center">30s Preview</span>
+      <span style="text-align:right">Action</span>
+    </div>
+
+    <div class="spotify-tracklist" id="spotifyTrackList">
+      ${renderTrackRows(tracks)}
+    </div>
+  `;
+
+  container.innerHTML = html;
+
+  // Filter input listener
+  const filterInput = container.querySelector('#trackFilterInput');
+  filterInput?.addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase().trim();
+    const filtered = tracks.filter(t => t.title.toLowerCase().includes(q) || t.artist.toLowerCase().includes(q));
+    const trackListEl = container.querySelector('#spotifyTrackList');
+    if (trackListEl) trackListEl.innerHTML = renderTrackRows(filtered);
+  });
+
+  // Track download handler delegate
+  container.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.download-single-track-btn');
+    if (!btn) return;
+
+    const title = btn.getAttribute('data-title');
+    const artist = btn.getAttribute('data-artist');
+
+    await downloadSpotifyTrack(title, artist, btn);
+  });
+
+  // Download All Tracks button
+  const downloadAllBtn = container.querySelector('#downloadAllTracksBtn');
+  downloadAllBtn?.addEventListener('click', async () => {
+    if (downloadAllBtn.disabled) return;
+    downloadAllBtn.disabled = true;
+    const origHtml = downloadAllBtn.innerHTML;
+
+    const trackBtns = container.querySelectorAll('.download-single-track-btn');
+    if (!trackBtns.length) return;
+
+    showToast(`Starting batch download for ${trackBtns.length} tracks...`, 'info');
+
+    let completed = 0;
+    for (const btn of trackBtns) {
+      const title = btn.getAttribute('data-title');
+      const artist = btn.getAttribute('data-artist');
+
+      downloadAllBtn.innerHTML = `<span class="spinner-sm" style="width:14px;height:14px;border-width:2px;display:inline-block;margin-right:6px"></span>Downloading ${completed + 1}/${trackBtns.length}...`;
+      
+      try {
+        await downloadSpotifyTrack(title, artist, btn);
+        completed++;
+      } catch (err) {
+        console.error('Failed downloading track:', title, err);
+      }
+      // Small pause between downloads to avoid browser/network throttling
+      await new Promise(r => setTimeout(r, 1200));
+    }
+
+    downloadAllBtn.innerHTML = origHtml;
+    downloadAllBtn.disabled = false;
+    showToast(`Batch download finished (${completed}/${trackBtns.length} downloaded)`, 'success');
+  });
+}
+
+function renderTrackRows(tracks) {
+  if (!tracks.length) {
+    return `<div style="padding:2rem;text-align:center;color:var(--text-muted)">No matching songs found in this playlist.</div>`;
+  }
+
+  return tracks.map((t, idx) => `
+    <div class="spotify-track-row">
+      <span class="track-idx">${idx + 1}</span>
+      <img src="${t.coverArt || 'https://open.spotify.com/favicon.ico'}" alt="${escapeHtml(t.title)}" class="track-thumb" />
+      <div class="track-info">
+        <span class="track-title" title="${escapeHtml(t.title)}">${escapeHtml(t.title)}</span>
+        <span class="track-artist" title="${escapeHtml(t.artist)}">${escapeHtml(t.artist)}</span>
+      </div>
+      <span class="track-duration track-col-duration">${t.durationFormatted || '0:00'}</span>
+      <div class="track-preview track-col-preview">
+        ${t.previewUrl ? `<audio controls controlsList="nodownload" src="${t.previewUrl}" preload="none"></audio>` : '<span class="no-preview">No preview</span>'}
+      </div>
+      <div class="track-action">
+        <button class="btn btn-sm btn-primary download-single-track-btn" data-title="${escapeHtml(t.title)}" data-artist="${escapeHtml(t.artist)}">
+          ⬇️ Download HQ
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function downloadSpotifyTrack(title, artist, btn) {
+  if (!btn || btn.disabled) return;
+  const origHtml = btn.innerHTML;
+  btn.innerHTML = '<span class="spinner-sm" style="width:12px;height:12px;border-width:2px;display:inline-block;margin-right:4px"></span>Fetching Audio...';
+  btn.disabled = true;
+
+  try {
+    const downloadApiUrl = `/api/spotify-download?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}`;
+    const res = await fetch(downloadApiUrl);
+
+    if (!res.ok) {
+      let errText = 'Download failed';
+      try {
+        const errJson = await res.json();
+        errText = errJson.error || errText;
+      } catch {}
+      throw new Error(errText);
+    }
+
+    const blob = await res.blob();
+    const filename = `${title} - ${artist}.m4a`.replace(/[/\\?%*:|"<>]/g, '');
+    downloadBlob(blob, filename);
+    showToast(`Downloaded "${title}"`, 'success');
+  } catch (err) {
+    console.error('Track Download Error:', err);
+    showToast(`Failed to download "${title}": ${err.message}`, 'error');
+  } finally {
+    btn.innerHTML = origHtml;
+    btn.disabled = false;
+  }
+}
+
+function escapeHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
