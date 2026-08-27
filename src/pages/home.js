@@ -82,6 +82,11 @@ export function renderHome() {
 }
 
 function renderCategorySection(catId, title, toolsList) {
+  const pdfSections = ['All', 'Workflows', 'Organize PDF', 'Optimize PDF', 'Convert PDF', 'Edit PDF', 'PDF Security', 'PDF Intelligence'];
+  
+  const hasSections = catId === 'pdf';
+  const sections = hasSections ? pdfSections : [];
+
   return `
     <div class="tools-category" data-category="${catId}" id="cat-${catId}">
       <div class="tools-category-header sr-slide-left">
@@ -92,11 +97,26 @@ function renderCategorySection(catId, title, toolsList) {
           '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>'
         }</div>
         <h2>${title}</h2>
-        <span class="cat-count">${toolsList.length} tools</span>
+        <span class="cat-count" id="catCount">${toolsList.length} tools</span>
       </div>
-      <div class="tools-grid">
+
+      ${hasSections ? `
+        <div class="tool-section-pills-wrap sr-fade-up">
+          <div class="tool-section-pills" id="pdfSectionPills">
+            ${sections.map((sec, idx) => `
+              <button class="tool-section-pill ${idx === 0 ? 'active' : ''}" data-section="${sec}">${sec}</button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      <div class="tools-grid" id="toolsGrid">
         ${toolsList.map((t, i) => `
-          <a class="tool-card ${t.category}-tool sr-blur-in sr-delay-${Math.min(i + 1, 10)}" href="#/tool/${t.id}" data-nav="/tool/${t.id}">
+          <a class="tool-card ${t.category}-tool sr-blur-in sr-delay-${Math.min(i + 1, 10)}" 
+             href="#/tool/${t.id}" 
+             data-nav="/tool/${t.id}" 
+             data-section="${t.section || ''}"
+             data-workflow="${t.isWorkflow ? 'true' : 'false'}">
             <div class="tool-card-icon">${t.icon}</div>
             <h3>${t.name}</h3>
             <p>${t.desc}</p>
@@ -203,6 +223,47 @@ window.addEventListener('page-rendered', () => {
     });
   });
 
+  // PDF Section Pills Filtering
+  const pills = document.querySelectorAll('.tool-section-pill');
+  const cards = document.querySelectorAll('#toolsGrid .tool-card');
+  const catCount = document.getElementById('catCount');
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      const sec = pill.dataset.section;
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardSec = card.dataset.section;
+        const isWorkflow = card.dataset.workflow === 'true';
+
+        let show = false;
+        if (sec === 'All') {
+          show = true;
+        } else if (sec === 'Workflows') {
+          show = isWorkflow;
+        } else {
+          show = cardSec === sec;
+        }
+
+        if (show) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (catCount) {
+        catCount.textContent = `${visibleCount} tools`;
+      }
+    });
+  });
+
   // Initialize scroll + text reveal animations
   initScrollAnimations();
 });
+

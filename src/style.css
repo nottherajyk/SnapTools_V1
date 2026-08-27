@@ -3814,6 +3814,68 @@ html[data-theme="dark"] .theme-icon-moon {
   border-radius: 16px;
 }
 
+/* ── Tool Section Pills (Sub-category navigation) ── */
+.tool-section-pills-wrap {
+  margin: 1.5rem 0 2rem 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.tool-section-pills-wrap::-webkit-scrollbar {
+  height: 4px;
+}
+.tool-section-pills-wrap::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+.tool-section-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  min-width: max-content;
+}
+.tool-section-pill {
+  padding: 8px 20px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: inherit;
+  border-radius: 9999px;
+  background: var(--bg-card, rgba(255, 255, 255, 0.05));
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+.tool-section-pill:hover {
+  color: var(--text);
+  border-color: var(--text);
+  transform: translateY(-1px);
+}
+.tool-section-pill.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+[data-theme="dark"] .tool-section-pill {
+  background: #18181b;
+  color: #a1a1aa;
+  border-color: #27272a;
+}
+[data-theme="dark"] .tool-section-pill:hover {
+  background: #27272a;
+  color: #ffffff;
+  border-color: #3f3f46;
+}
+[data-theme="dark"] .tool-section-pill.active {
+  background: #ffffff;
+  color: #09090b;
+  border-color: #ffffff;
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.1);
+}
+
 .no-preview {
   font-size: 0.75rem;
   color: var(--text-muted);
