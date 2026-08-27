@@ -23,6 +23,28 @@ const ICON_UNLOCK        = svg('<rect x="3" y="11" width="18" height="11" rx="2"
 const ICON_META          = svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>');
 const ICON_MERGE         = svg('<line x1="17" y1="1" x2="17" y2="11"/><path d="M9 7L3 13l6 6"/><path d="M3 13h14a4 4 0 0 0 0-8h-1"/>');
 const ICON_SPLIT         = svg('<line x1="17" y1="1" x2="17" y2="11"/><line x1="7" y1="1" x2="7" y2="11"/><path d="M3 7l4-4 4 4"/><path d="M13 7l4-4 4 4"/><path d="M3 17l4 4 4-4"/><path d="M13 17l4 4 4-4"/>');
+const ICON_PPT           = svg('<path d="M4 3h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2z"/><path d="M9 7h4a2 2 0 0 1 0 4H9v4"/>');
+const ICON_EXCEL         = svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13l3 4"/><path d="M11 13l-3 4"/><line x1="14" y1="13" x2="17" y2="13"/><line x1="14" y1="17" x2="17" y2="17"/>');
+const ICON_EDIT          = svg('<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>');
+const ICON_SIGN          = svg('<path d="M20 19.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8.5L20 7.5V13"/><path d="M16 19h6"/><path d="M17 16l4 4-2 2-4-4z"/>');
+const ICON_WATERMARK     = svg('<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/><path d="M12 9v6"/><path d="M9 12h6"/>');
+const ICON_ROTATE        = svg('<path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.2L2.5 16"/>');
+const ICON_HTML          = svg('<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/>');
+const ICON_ORGANIZE      = svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>');
+const ICON_TRASH         = svg('<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>');
+const ICON_EXTRACT       = svg('<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>');
+const ICON_PDFA          = svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 17v-6h3a2 2 0 0 1 0 4H9"/><circle cx="15" cy="15" r="2"/>');
+const ICON_REPAIR        = svg('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>');
+const ICON_PAGENUM       = svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="12" cy="15" r="2"/><line x1="12" y1="13" x2="12" y2="15"/>');
+const ICON_SCAN          = svg('<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="4" y1="12" x2="20" y2="12"/>');
+const ICON_OCR           = svg('<path d="M4 7V4h3"/><path d="M20 7V4h-3"/><path d="M4 17v3h3"/><path d="M20 17v3h-3"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="12" y1="9" x2="12" y2="15"/><line x1="9" y1="15" x2="15" y2="15"/>');
+const ICON_COMPARE       = svg('<rect x="2" y="3" width="9" height="18" rx="2"/><rect x="13" y="3" width="9" height="18" rx="2"/><line x1="9" y1="12" x2="13" y2="12"/>');
+const ICON_REDACT        = svg('<rect x="3" y="11" width="18" height="8" rx="1" fill="currentColor"/><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>');
+const ICON_CROP_PDF      = svg('<path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/>');
+const ICON_FORMS         = svg('<rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="13" y2="12"/><line x1="7" y1="16" x2="11" y2="16"/>');
+const ICON_SUMMARIZE     = svg('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/><path d="M17 10l2-2m0 0l-2-2m2 2h-4"/>');
+const ICON_TRANSLATE     = svg('<path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>');
+const ICON_MARKDOWN      = svg('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 15V9l3 3 3-3v6"/><path d="M17 13l-2 2m0 0l-2-2m2 2v-4"/>');
 
 // ── Social Tool Icons ──
 const ICON_YOUTUBE       = svg('<path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/>');
@@ -66,17 +88,41 @@ export const tools = [
   { id:'black-and-white',  name:'Black & White',         desc:'Easily convert an image to black and white online.',                    category:'image',  icon: ICON_BW            },
 
   // ===== PDF TOOLS =====
-  { id:'pdf-to-word',      name:'PDF to Word',           desc:'Convert PDF documents to editable Microsoft Word DOCX files.',          category:'pdf',    icon: ICON_DOC_CONVERT  },
-  { id:'word-to-pdf',      name:'Word to PDF',           desc:'Convert Microsoft Word DOCX files to PDF documents online.',           category:'pdf',    icon: ICON_DOC_CONVERT  },
-  { id:'compress-pdf',     name:'Compress PDF',          desc:'Reduce the file size of your PDF while keeping maximum quality.',       category:'pdf',    icon: ICON_PDF_COMPRESS },
-  { id:'acrobat-downloader',name:'Acrobat Link Downloader',desc:'Download or convert files from any Adobe Acrobat public shared link.',category:'pdf',    icon: ICON_LINK         },
-  { id:'pdf-to-images',    name:'PDF to Images',         desc:'Convert PDF pages into high-quality JPG or PNG images client-side.',   category:'pdf',    icon: ICON_IMAGE_CONVERT },
-  { id:'protect-pdf',      name:'Protect PDF',           desc:'Easily protect a PDF file with a password.',                           category:'pdf',    icon: ICON_LOCK          },
-  { id:'unlock-pdf',       name:'Unlock PDF',            desc:'Easily unlock a PDF protected with a password.',                       category:'pdf',    icon: ICON_UNLOCK        },
-  { id:'pdf-metadata',     name:'PDF Metadata',          desc:"Easily preview a PDF's metadata online.",                              category:'pdf',    icon: ICON_META          },
-  { id:'jpg-to-pdf',       name:'JPG to PDF',            desc:'Easily convert JPG/JPEG images into a PDF.',                           category:'pdf',    icon: ICON_DOC_CONVERT   },
   { id:'merge-pdf',        name:'Merge PDF',             desc:'Easily merge multiple PDFs into one in the order you want.',           category:'pdf',    icon: ICON_MERGE         },
   { id:'split-pdf',        name:'Split PDF',             desc:'Split a PDF into separate files by page or custom ranges.',            category:'pdf',    icon: ICON_SPLIT         },
+  { id:'compress-pdf',     name:'Compress PDF',          desc:'Reduce the file size of your PDF while keeping maximum quality.',       category:'pdf',    icon: ICON_PDF_COMPRESS },
+  { id:'pdf-to-word',      name:'PDF to Word',           desc:'Convert PDF documents to editable Microsoft Word DOCX files.',          category:'pdf',    icon: ICON_DOC_CONVERT  },
+  { id:'pdf-to-powerpoint',name:'PDF to PowerPoint',     desc:'Convert PDF slides into editable Microsoft PowerPoint (PPTX) presentations.', category:'pdf', icon: ICON_PPT },
+  { id:'pdf-to-excel',     name:'PDF to Excel',          desc:'Pull table and text data straight from PDFs into Excel spreadsheets.', category:'pdf',    icon: ICON_EXCEL         },
+  { id:'word-to-pdf',      name:'Word to PDF',           desc:'Convert Microsoft Word DOCX files to PDF documents online.',           category:'pdf',    icon: ICON_DOC_CONVERT  },
+  { id:'powerpoint-to-pdf',name:'PowerPoint to PDF',     desc:'Convert Microsoft PowerPoint (PPTX) presentations into PDF documents.', category:'pdf', icon: ICON_PPT },
+  { id:'excel-to-pdf',     name:'Excel to PDF',          desc:'Convert Microsoft Excel spreadsheets and CSV tables into PDF documents.', category:'pdf', icon: ICON_EXCEL },
+  { id:'edit-pdf',         name:'Edit PDF',              desc:'Add text, shapes, drawings, and freehand annotations directly to your PDF.', category:'pdf', icon: ICON_EDIT },
+  { id:'pdf-to-images',    name:'PDF to JPG',            desc:'Convert PDF pages into high-quality JPG or PNG images client-side.',   category:'pdf',    icon: ICON_IMAGE_CONVERT },
+  { id:'jpg-to-pdf',       name:'JPG to PDF',            desc:'Easily convert JPG, PNG, and WEBP images into a unified PDF.',          category:'pdf',    icon: ICON_DOC_CONVERT   },
+  { id:'sign-pdf',         name:'Sign PDF',              desc:'Sign documents with drawn, typed, or uploaded electronic signatures.',  category:'pdf',    icon: ICON_SIGN          },
+  { id:'pdf-watermark',    name:'Watermark PDF',         desc:'Stamp custom text or image watermarks across your PDF pages.',          category:'pdf',    icon: ICON_WATERMARK     },
+  { id:'rotate-pdf',       name:'Rotate PDF',            desc:'Rotate all or individual pages in your PDF document with one click.',   category:'pdf',    icon: ICON_ROTATE        },
+  { id:'html-to-pdf',      name:'HTML to PDF',           desc:'Convert raw HTML code, rich web text, or URLs into PDF documents.',    category:'pdf',    icon: ICON_HTML          },
+  { id:'unlock-pdf',       name:'Unlock PDF',            desc:'Easily unlock and remove security passwords from your PDF files.',     category:'pdf',    icon: ICON_UNLOCK        },
+  { id:'protect-pdf',      name:'Protect PDF',           desc:'Easily protect and encrypt a PDF file with a secure password.',        category:'pdf',    icon: ICON_LOCK          },
+  { id:'organize-pdf',     name:'Organize PDF',          desc:'Rearrange, rotate, delete, or duplicate pages in your PDF document.',   category:'pdf',    icon: ICON_ORGANIZE      },
+  { id:'remove-pages',     name:'Remove Pages',          desc:'Select and delete unwanted pages from your PDF file.',                  category:'pdf',    icon: ICON_TRASH         },
+  { id:'extract-pages',    name:'Extract Pages',         desc:'Extract specific pages or page ranges from a PDF into new files.',      category:'pdf',    icon: ICON_EXTRACT       },
+  { id:'pdf-to-pdfa',      name:'PDF to PDF/A',          desc:'Transform PDF into ISO-standardized PDF/A format for long-term archiving.', category:'pdf', icon: ICON_PDFA },
+  { id:'repair-pdf',       name:'Repair PDF',            desc:'Recover data and fix structural damage in corrupted PDF documents.',    category:'pdf',    icon: ICON_REPAIR        },
+  { id:'add-page-numbers', name:'Page Numbers',          desc:'Add customizable page numbers, headers, and footers to your PDF.',      category:'pdf',    icon: ICON_PAGENUM       },
+  { id:'scan-to-pdf',      name:'Scan to PDF',           desc:'Capture document scans using your camera and compile them into a PDF.', category:'pdf',    icon: ICON_SCAN          },
+  { id:'ocr-pdf',          name:'OCR PDF',               desc:'Extract text from scanned PDFs and generate searchable text documents.', category:'pdf',    icon: ICON_OCR           },
+  { id:'compare-pdf',      name:'Compare PDF',           desc:'Side-by-side visual and text diff comparison between two PDF documents.', category:'pdf', icon: ICON_COMPARE      },
+  { id:'redact-pdf',       name:'Redact PDF',            desc:'Permanently mask and redact confidential text or areas in a PDF.',      category:'pdf',    icon: ICON_REDACT        },
+  { id:'crop-pdf',         name:'Crop PDF',              desc:'Crop PDF margins or select custom rectangular page areas.',             category:'pdf',    icon: ICON_CROP_PDF      },
+  { id:'pdf-forms',        name:'PDF Forms',             desc:'Fill out, edit, and flatten interactive PDF form fields seamlessly.',   category:'pdf',    icon: ICON_FORMS         },
+  { id:'pdf-summarize',    name:'AI Summarizer',         desc:'Generate key takeaways, executive summaries, and briefs from your PDF.', category:'pdf', icon: ICON_SUMMARIZE     },
+  { id:'translate-pdf',    name:'Translate PDF',         desc:'Translate text in your PDF document into over 30 languages.',           category:'pdf',    icon: ICON_TRANSLATE     },
+  { id:'pdf-to-markdown',  name:'PDF to Markdown',       desc:'Convert PDF pages into clean Markdown formatting for notes and LLMs.',  category:'pdf',    icon: ICON_MARKDOWN      },
+  { id:'pdf-metadata',     name:'PDF Metadata',          desc:"Easily preview, view, and inspect a PDF's internal metadata.",          category:'pdf',    icon: ICON_META          },
+  { id:'acrobat-downloader',name:'Acrobat Link Downloader',desc:'Download or convert files from any Adobe Acrobat public shared link.',category:'pdf',    icon: ICON_LINK         },
 
   // ===== SOCIAL MEDIA TOOLS =====
   { id:'spotify-downloader',    name:'Spotify Playlist Downloader', desc:'Download high-quality MP3 songs directly from any Spotify playlist, album, or track link.', category:'social', icon: ICON_SPOTIFY },

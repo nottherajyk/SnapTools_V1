@@ -3,10 +3,12 @@ import { tools } from '../tools-data.js';
 export function renderNavbar() {
   const route = window.location.hash.slice(1) || '/';
   const isHome = route === '/' || route === '';
-  const isImage = route === '/image' || (route.startsWith('/tool/') && ['webp-to-jpg','jpg-to-svg','base64-to-image','compress-image','png-to-jpg','svg-to-png','png-to-svg','image-cropper','invert-colors','jpg-to-png','image-to-base64','black-and-white'].includes(route.replace('/tool/','')));
-  const isPdf = route === '/pdf' || (route.startsWith('/tool/') && ['protect-pdf','unlock-pdf','pdf-metadata','jpg-to-pdf','merge-pdf','split-pdf','pdf-to-word','word-to-pdf','compress-pdf','acrobat-downloader','pdf-to-images'].includes(route.replace('/tool/','')));
-  const isSocial = route === '/social' || (route.startsWith('/tool/') && ['thumbnail-grabber','tweet-generator','youtube-tags','instagram-post','x-image-slicer','instagram-downloader','youtube-downloader'].includes(route.replace('/tool/','')));
-  const isText = route === '/text' || (route.startsWith('/tool/') && !isImage && !isPdf && !isSocial && route.startsWith('/tool/'));
+  const currentTool = route.startsWith('/tool/') ? tools.find(t => t.id === route.replace('/tool/', '')) : null;
+  const currentCat = currentTool ? currentTool.category : null;
+  const isImage = route === '/image' || currentCat === 'image';
+  const isPdf = route === '/pdf' || currentCat === 'pdf';
+  const isSocial = route === '/social' || currentCat === 'social';
+  const isText = route === '/text' || currentCat === 'text';
 
   return `
   <header class="header-navbar">

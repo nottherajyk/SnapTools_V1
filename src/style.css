@@ -3850,4 +3850,331 @@ html[data-theme="dark"] .theme-icon-moon {
   .track-col-preview {
     display: none !important;
   }
-}
+}
+
+/* ==========================================================================
+   Interactive PDF Tools Suite Styling
+   ========================================================================== */
+
+/* ── PDF Page Grid & Cards (Rotate, Organize, Remove, Extract) ── */
+.pdf-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.pdf-page-card {
+  position: relative;
+  background: var(--bg-surface);
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+}
+
+.pdf-page-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pdf-page-card.selected {
+  border-color: var(--accent);
+  background: rgba(255, 0, 127, 0.05);
+  box-shadow: 4px 4px 0px var(--accent);
+}
+
+.pdf-page-thumbnail {
+  width: 100%;
+  aspect-ratio: 1 / 1.414;
+  background: #ffffff;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.pdf-page-thumbnail canvas,
+.pdf-page-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pdf-page-num-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: #000000;
+  color: #FAFF05;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  z-index: 2;
+}
+
+.pdf-page-actions {
+  display: flex;
+  gap: 0.35rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.pdf-page-action-btn {
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+}
+
+.pdf-page-action-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: #000000;
+}
+
+/* ── Interactive PDF Editor & Annotator ── */
+.pdf-editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.pdf-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-surface);
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.editor-tool-btn {
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.15s ease;
+}
+
+.editor-tool-btn:hover {
+  background: var(--surface-light);
+}
+
+.editor-tool-btn.active {
+  background: #FAFF05 !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.pdf-canvas-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.pdf-canvas-container canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.pdf-drawing-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* ── Signature Pad ── */
+.sig-pad-box {
+  width: 100%;
+  max-width: 600px;
+  height: 200px;
+  background: #ffffff;
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  touch-action: none;
+  cursor: crosshair;
+  position: relative;
+}
+
+.sig-pad-box canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sig-type-preview {
+  font-family: 'Brush Script MT', 'Dancing Script', 'Pacifico', cursive, sans-serif;
+  font-size: 2.5rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  color: #000080;
+  text-align: center;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Watermark Position Matrix ── */
+.watermark-grid-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  max-width: 180px;
+}
+
+.watermark-pos-btn {
+  aspect-ratio: 1;
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+}
+
+.watermark-pos-btn:hover {
+  background: var(--surface-light);
+}
+
+.watermark-pos-btn.active {
+  background: #FAFF05 !important;
+  color: #000000 !important;
+  box-shadow: 2px 2px 0px #000000;
+}
+
+/* ── Document Scanner Camera View ── */
+.scanner-feed-container {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 4 / 3;
+  background: #000000;
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin: 0 auto;
+}
+
+.scanner-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scanner-overlay-guide {
+  position: absolute;
+  inset: 16px;
+  border: 2px dashed #FAFF05;
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Side-by-side PDF Compare ── */
+.compare-split-view {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .compare-split-view {
+    grid-template-columns: 1fr;
+  }
+}
+
+.compare-card {
+  background: var(--bg-surface);
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.compare-card h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+/* ── Markdown & OCR Output Display ── */
+.text-output-preview {
+  width: 100%;
+  min-height: 240px;
+  max-height: 480px;
+  padding: 1.25rem;
+  background: var(--bg-surface);
+  border: 3px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
