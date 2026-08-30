@@ -70,18 +70,18 @@
 
 /* ----- Dark Mode Overrides ----- */
 html[data-theme="dark"] {
-  --bg-primary: #12131C;
-  /* Midnight Slate Dark */
-  --bg-secondary: #0B0C12;
-  /* Deep Black */
-  --bg-surface: #1C1D2A;
-  /* Card Surface Dark */
-  --bg-hover: #262738;
-  --surface-dark: #12131C;
+  --bg-primary: #000000;
+  /* Pure Deep Black */
+  --bg-secondary: #050505;
+  /* Dark Charcoal */
+  --bg-surface: #0a0a0c;
+  /* Clean Dark Grey Card Surface */
+  --bg-hover: #16161a;
+  --surface-dark: #000000;
 
   /* Borders */
-  --border: #3A3B54;
-  --border-hover: #565778;
+  --border: #1f1f23;
+  --border-hover: #3f3f46;
   --border-accent: #FF007F;
 
   /* Accents */
@@ -99,11 +99,11 @@ html[data-theme="dark"] {
   /* Text - Vibrant Off-white */
   --text-primary: #F5F5FA;
   --text-secondary: #E0E0EC;
-  --text-muted: #9DA0B8;
+  --text-muted: #8e8e9f;
 
   /* Glass - dark cards */
-  --glass-bg: #1C1D2A;
-  --glass-border: #3A3B54;
+  --glass-bg: #0a0a0c;
+  --glass-border: #1f1f23;
 
   /* Shadows - Dark Neo-Brutalist flat offset shadows */
   --shadow-sm: 3px 3px 0px #000000;
@@ -141,7 +141,7 @@ html[data-theme="dark"] .breadcrumb {
 }
 
 html[data-theme="dark"] a.breadcrumb-item {
-  background: #1C1D2A !important;
+  background: var(--bg-surface) !important;
   color: #FFFFFF !important;
   border-color: #000000 !important;
 }
@@ -162,7 +162,7 @@ html[data-theme="dark"] .breadcrumb-current {
 }
 
 html[data-theme="dark"] .tools-category-header {
-  background: #1C1D2A !important;
+  background: var(--bg-surface) !important;
   border-color: #000000 !important;
   box-shadow: 4px 4px 0px #000000 !important;
 }
@@ -184,13 +184,13 @@ html[data-theme="dark"] .btn-primary {
 }
 
 html[data-theme="dark"] .radio-card {
-  background: #1C1D2A !important;
+  background: var(--bg-surface) !important;
   border-color: #000000 !important;
   box-shadow: 3px 3px 0px #000000 !important;
 }
 
 html[data-theme="dark"] .radio-card:hover {
-  background: #262738 !important;
+  background: var(--bg-hover) !important;
 }
 
 html[data-theme="dark"] .radio-card:has(input[type="radio"]:checked) {
@@ -212,7 +212,7 @@ html[data-theme="dark"] .radio-card-desc {
 }
 
 html[data-theme="dark"] .file-info {
-  background: #1C1D2A !important;
+  background: var(--bg-surface) !important;
   border-color: #000000 !important;
   box-shadow: 3.5px 3.5px 0px #000000 !important;
 }
