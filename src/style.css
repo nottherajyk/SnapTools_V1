@@ -3035,6 +3035,99 @@ input[type="range"]::-webkit-slider-thumb:hover {
   box-shadow: 1px 1px 0px #000000;
 }
 
+/* ----- Download Modal Dark Mode Overrides ----- */
+html[data-theme="dark"] .download-modal-container {
+  background: var(--bg-surface) !important;
+  border-color: var(--border) !important;
+  box-shadow: 10px 10px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .download-modal-header {
+  background: var(--bg-secondary) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+html[data-theme="dark"] .download-modal-title {
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .download-modal-close-btn {
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+  box-shadow: 2px 2px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .download-modal-close-btn:hover {
+  background: var(--accent) !important;
+  color: #FFFFFF !important;
+}
+
+html[data-theme="dark"] .download-modal-body {
+  background: var(--bg-primary) !important;
+}
+
+html[data-theme="dark"] .download-modal-icon-container {
+  background: var(--bg-surface) !important;
+  border-color: var(--border) !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .download-modal-details-table {
+  background: var(--bg-surface) !important;
+  border-color: var(--border) !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .download-modal-row {
+  border-bottom-color: var(--border) !important;
+}
+
+html[data-theme="dark"] .download-modal-label {
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .download-modal-value {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="dark"] .download-modal-filename {
+  color: var(--accent-light) !important;
+}
+
+html[data-theme="dark"] .download-modal-disclaimer {
+  color: var(--text-muted) !important;
+}
+
+html[data-theme="dark"] .download-modal-footer {
+  background: var(--bg-secondary) !important;
+  border-top-color: var(--border) !important;
+}
+
+html[data-theme="dark"] .download-modal-btn-cancel {
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border) !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .download-modal-btn-cancel:hover {
+  background: var(--bg-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .download-modal-btn-confirm {
+  background: var(--accent) !important;
+  color: #FFFFFF !important;
+  border-color: #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+html[data-theme="dark"] .download-modal-btn-confirm:hover {
+  background: var(--accent-light) !important;
+  color: #000000 !important;
+}
+
 /* ==========================================================================
    GLOBAL DRAG AND DROP OVERLAY STYLES (NEO-BRUTALIST / STARFACE BRAND)
    ========================================================================== */
